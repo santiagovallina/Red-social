@@ -1,0 +1,34 @@
+.publicaciones {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.publicaciones__titulo {
+  margin: 0 0 0.5rem;
+  color: var(--rc-azul);
+}
+
+.publicaciones__intro {
+  margin: 0 0 1.5rem;
+  color: #555555;
+}
+
+.publicaciones__vacio {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid var(--rc-celeste);
+  border-radius: 8px;
+}
+
+.publicaciones__vacio h2 {
+  margin: 0 0 0.5rem;
+  color: var(--rc-azul);
+  font-size: 1.15rem;
+}
+
+.publicaciones__vacio p {
+  margin: 0;
+  color: #555555;
+}

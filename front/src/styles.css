@@ -1,0 +1,55 @@
+/* Paleta y tipografía de Racinggram.
+   Los colores se cambian acá y se propagan a toda la aplicación. */
+html {
+  --rc-celeste: #67bef4;
+  --rc-celeste-suave: #d6ecfb;
+  --rc-azul: #00022e;
+  --rc-fondo: #f4f4f4;
+  --rc-fuente: 'Montserrat', Arial, Helvetica, sans-serif;
+
+  /* Colores de Angular Material */
+  --mat-sys-primary: var(--rc-azul);
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: var(--rc-celeste);
+  --mat-sys-on-primary-container: var(--rc-azul);
+  --mat-sys-secondary: var(--rc-celeste);
+  --mat-sys-on-secondary: var(--rc-azul);
+  --mat-sys-secondary-container: var(--rc-celeste-suave);
+  --mat-sys-on-secondary-container: var(--rc-azul);
+  --mat-sys-background: var(--rc-fondo);
+  --mat-sys-surface: #ffffff;
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-low: #ffffff;
+  --mat-sys-surface-container: #ffffff;
+  --mat-sys-surface-container-high: #ffffff;
+  --mat-sys-on-surface: #000000;
+  --mat-sys-outline: var(--rc-celeste);
+
+  /* Tipografía de Angular Material */
+  --mat-sys-body-large-font: var(--rc-fuente);
+  --mat-sys-body-medium-font: var(--rc-fuente);
+  --mat-sys-body-small-font: var(--rc-fuente);
+  --mat-sys-display-large-font: var(--rc-fuente);
+  --mat-sys-display-medium-font: var(--rc-fuente);
+  --mat-sys-display-small-font: var(--rc-fuente);
+  --mat-sys-headline-large-font: var(--rc-fuente);
+  --mat-sys-headline-medium-font: var(--rc-fuente);
+  --mat-sys-headline-small-font: var(--rc-fuente);
+  --mat-sys-label-large-font: var(--rc-fuente);
+  --mat-sys-label-medium-font: var(--rc-fuente);
+  --mat-sys-label-small-font: var(--rc-fuente);
+  --mat-sys-title-large-font: var(--rc-fuente);
+  --mat-sys-title-medium-font: var(--rc-fuente);
+  --mat-sys-title-small-font: var(--rc-fuente);
+}
+
+body {
+  margin: 0;
+  background: var(--rc-fondo);
+  color: #000000;
+  font-family: var(--rc-fuente);
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+}

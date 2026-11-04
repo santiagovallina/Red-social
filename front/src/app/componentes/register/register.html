@@ -1,0 +1,110 @@
+<section class="registro">
+  <h1 class="registro__titulo">Crear cuenta</h1>
+  <p class="registro__intro">Sumate a la comunidad de Racinggram.</p>
+
+  <form class="registro__form" (submit)="enviar($event)" novalidate>
+    <div class="registro__fila">
+      <div class="registro__campo">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" autocomplete="given-name" [formField]="registroForm.nombre" />
+        @if (registroForm.nombre().touched()) {
+          @for (error of registroForm.nombre().errors(); track error.kind) {
+            <p class="registro__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div class="registro__campo">
+        <label for="apellido">Apellido</label>
+        <input id="apellido" type="text" autocomplete="family-name" [formField]="registroForm.apellido" />
+        @if (registroForm.apellido().touched()) {
+          @for (error of registroForm.apellido().errors(); track error.kind) {
+            <p class="registro__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="registro__campo">
+      <label for="correo">Correo</label>
+      <input id="correo" type="email" autocomplete="email" [formField]="registroForm.correo" />
+      @if (registroForm.correo().touched()) {
+        @for (error of registroForm.correo().errors(); track error.kind) {
+          <p class="registro__error">{{ error.message }}</p>
+        }
+      }
+    </div>
+
+    <div class="registro__campo">
+      <label for="usuario">Nombre de usuario</label>
+      <input id="usuario" type="text" autocomplete="username" [formField]="registroForm.usuario" />
+      @if (registroForm.usuario().touched()) {
+        @for (error of registroForm.usuario().errors(); track error.kind) {
+          <p class="registro__error">{{ error.message }}</p>
+        }
+      }
+    </div>
+
+    <div class="registro__fila">
+      <div class="registro__campo">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" autocomplete="new-password" [formField]="registroForm.password" />
+        @if (registroForm.password().touched()) {
+          @for (error of registroForm.password().errors(); track error.kind) {
+            <p class="registro__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div class="registro__campo">
+        <label for="repetirPassword">Repetir contraseña</label>
+        <input id="repetirPassword" type="password" autocomplete="new-password" [formField]="registroForm.repetirPassword" />
+        @if (registroForm.repetirPassword().touched()) {
+          @for (error of registroForm.repetirPassword().errors(); track error.kind) {
+            <p class="registro__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="registro__campo">
+      <label for="fechaNacimiento">Fecha de nacimiento</label>
+      <input id="fechaNacimiento" type="date" [max]="hoy" [formField]="registroForm.fechaNacimiento" />
+      @if (registroForm.fechaNacimiento().touched()) {
+        @for (error of registroForm.fechaNacimiento().errors(); track error.kind) {
+          <p class="registro__error">{{ error.message }}</p>
+        }
+      }
+    </div>
+
+    <div class="registro__campo">
+      <label for="descripcion">Descripción breve</label>
+      <textarea id="descripcion" rows="3" [formField]="registroForm.descripcion"></textarea>
+      <p class="registro__contador">{{ registroModel().descripcion.length }} / 200</p>
+      @if (registroForm.descripcion().touched()) {
+        @for (error of registroForm.descripcion().errors(); track error.kind) {
+          <p class="registro__error">{{ error.message }}</p>
+        }
+      }
+    </div>
+
+    <div class="registro__campo">
+      <label for="foto">Foto de perfil (opcional)</label>
+      <input id="foto" type="file" accept="image/*" (change)="seleccionarFoto($event)" />
+      @if (vistaPrevia()) {
+        <img class="registro__vista-previa" [src]="vistaPrevia()" alt="Vista previa de la foto de perfil" />
+      }
+      @if (errorFoto()) {
+        <p class="registro__error">{{ errorFoto() }}</p>
+      }
+    </div>
+
+    <button matButton="filled" class="registro__boton" type="submit" [disabled]="registroForm().submitting()">
+      {{ registroForm().submitting() ? 'Creando cuenta...' : 'Crear cuenta' }}
+    </button>
+
+    <p class="registro__pie">
+      ¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a>
+    </p>
+  </form>
+</section>

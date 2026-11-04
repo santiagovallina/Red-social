@@ -1,0 +1,13 @@
+<header class="barra">
+  <a class="marca" routerLink="/publicaciones">Racinggram</a>
+
+  <nav class="enlaces">
+    <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
+    <a routerLink="/mi-perfil" routerLinkActive="activo">Mi perfil</a>
+  </nav>
+
+  <div class="sesion">
+    <span class="nombre">{{ auth.usuario()?.usuario }}</span>
+    <button matButton="filled" type="button" (click)="salir()">Salir</button>
+  </div>
+</header>

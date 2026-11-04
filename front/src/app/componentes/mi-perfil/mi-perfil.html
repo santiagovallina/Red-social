@@ -1,0 +1,32 @@
+@if (auth.usuario(); as usuario) {
+  <section class="perfil">
+    <div class="perfil__cabecera">
+      @if (usuario.imagenUrl) {
+        <img class="perfil__foto" [src]="usuario.imagenUrl" alt="Foto de perfil de {{ usuario.usuario }}" />
+      } @else {
+        <div class="perfil__foto perfil__foto--inicial">{{ usuario.nombre.charAt(0).toUpperCase() }}</div>
+      }
+
+      <div>
+        <h1 class="perfil__nombre">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+        <p class="perfil__usuario">&#64;{{ usuario.usuario }}</p>
+        @if (usuario.perfil === 'administrador') {
+          <span class="perfil__etiqueta">Administrador</span>
+        }
+      </div>
+    </div>
+
+    <p class="perfil__descripcion">{{ usuario.descripcion }}</p>
+
+    <dl class="perfil__datos">
+      <div>
+        <dt>Correo</dt>
+        <dd>{{ usuario.correo }}</dd>
+      </div>
+      <div>
+        <dt>Fecha de nacimiento</dt>
+        <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
+      </div>
+    </dl>
+  </section>
+}
