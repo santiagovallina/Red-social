@@ -20,3 +20,6 @@ postman/
 .DS_Store
 Thumbs.db
 *.log
+
+# Archivos generados por el compilador
+*.tsbuildinfo
