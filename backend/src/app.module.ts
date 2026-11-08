@@ -14,6 +14,10 @@ import { PublicacionesModule } from './publicaciones/publicaciones.module.js';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         uri: config.getOrThrow<string>('MONGODB_URI'),
+        serverSelectionTimeoutMS: 8000,
+        connectTimeoutMS: 8000,
+        retryAttempts: 1,
+        retryDelay: 1000,
       }),
     }),
     AutenticacionModule,
