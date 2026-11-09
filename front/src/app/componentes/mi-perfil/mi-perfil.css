@@ -82,3 +82,27 @@
     grid-template-columns: 1fr;
   }
 }
+
+.ultimas {
+  box-sizing: border-box;
+  width: min(100% - 2rem, 40rem);
+  margin: 0 auto 2rem;
+}
+
+.ultimas__titulo {
+  margin: 0 0 1rem;
+  color: var(--rc-azul);
+  font-size: 1.3rem;
+}
+
+.ultimas__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ultimas__estado {
+  padding: 1.5rem 0;
+  color: #555555;
+  text-align: center;
+}

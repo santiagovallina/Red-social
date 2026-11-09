@@ -29,4 +29,26 @@
       </div>
     </dl>
   </section>
+
+  <section class="ultimas">
+    <h2 class="ultimas__titulo">Mis últimas publicaciones</h2>
+
+    @if (cargando() && ultimas().length === 0) {
+      <p class="ultimas__estado">Cargando tus publicaciones...</p>
+    } @else if (errorCarga()) {
+      <p class="ultimas__estado">No pudimos cargar tus publicaciones. Intentá de nuevo en unos minutos.</p>
+    } @else if (ultimas().length === 0) {
+      <p class="ultimas__estado">Todavía no publicaste nada. Animate desde la pantalla de Publicaciones.</p>
+    } @else {
+      <div class="ultimas__lista">
+        @for (publicacion of ultimas(); track publicacion._id) {
+          <app-tarjeta-publicacion
+            [publicacion]="publicacion"
+            [mostrarComentarios]="true"
+            (eliminada)="cargarUltimas()"
+          />
+        }
+      </div>
+    }
+  </section>
 }

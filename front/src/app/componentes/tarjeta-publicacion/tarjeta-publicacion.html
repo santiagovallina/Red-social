@@ -1,0 +1,47 @@
+<article class="tarjeta">
+  <header class="tarjeta__cabecera">
+    @if (publicacion().autor.imagenUrl) {
+      <img class="tarjeta__avatar" [src]="publicacion().autor.imagenUrl" alt="Foto de {{ publicacion().autor.usuario }}" />
+    } @else {
+      <div class="tarjeta__avatar tarjeta__avatar--inicial">{{ inicial() }}</div>
+    }
+
+    <div class="tarjeta__autor">
+      <p class="tarjeta__nombre">{{ publicacion().autor.nombre }} {{ publicacion().autor.apellido }}</p>
+      <p class="tarjeta__fecha">&#64;{{ publicacion().autor.usuario }} · {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+
+    @if (esMia()) {
+      <button class="tarjeta__eliminar" matButton type="button" (click)="eliminar()">Eliminar</button>
+    }
+  </header>
+
+  <h2 class="tarjeta__titulo">{{ publicacion().titulo }}</h2>
+  <p class="tarjeta__mensaje">{{ publicacion().mensaje }}</p>
+
+  @if (publicacion().imagenUrl) {
+    <img class="tarjeta__imagen" [src]="publicacion().imagenUrl" alt="Imagen de la publicación {{ publicacion().titulo }}" />
+  }
+
+  <footer class="tarjeta__pie">
+    <button
+      class="tarjeta__me-gusta"
+      [class.tarjeta__me-gusta--activo]="meGustaYo()"
+      type="button"
+      [disabled]="trabajando()"
+      [attr.aria-pressed]="meGustaYo()"
+      (click)="alternarMeGusta()"
+    >
+      <span class="material-icons" aria-hidden="true">{{ meGustaYo() ? 'favorite' : 'favorite_border' }}</span>
+      <span>{{ meGustaYo() ? 'Quitar me gusta' : 'Me gusta' }}</span>
+    </button>
+    <span class="tarjeta__contador">{{ cantidadMeGusta() }} me gusta</span>
+  </footer>
+
+  @if (mostrarComentarios()) {
+    <section class="tarjeta__comentarios">
+      <h3>Comentarios</h3>
+      <p>Todavía no hay comentarios.</p>
+    </section>
+  }
+</article>

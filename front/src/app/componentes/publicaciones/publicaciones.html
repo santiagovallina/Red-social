@@ -1,9 +1,85 @@
 <section class="publicaciones">
-  <h1 class="publicaciones__titulo">Publicaciones</h1>
-  <p class="publicaciones__intro">Hola, {{ auth.usuario()?.nombre }}. Acá vas a ver lo que comparte la comunidad.</p>
-
-  <div class="publicaciones__vacio">
-    <h2>Todavía no hay publicaciones</h2>
-    <p>Muy pronto vas a poder ver, crear y comentar publicaciones de otros hinchas.</p>
+  <div class="publicaciones__cabecera">
+    <div>
+      <h1 class="publicaciones__titulo">Publicaciones</h1>
+      <p class="publicaciones__intro">Hola, {{ auth.usuario()?.nombre }}. Acá vas a ver lo que comparte la comunidad.</p>
+    </div>
+    <button matButton="filled" type="button" (click)="alternarFormulario()">
+      {{ mostrarFormulario() ? 'Cancelar' : 'Nueva publicación' }}
+    </button>
   </div>
+
+  @if (mostrarFormulario()) {
+    <form class="nueva" (submit)="enviarPublicacion($event)" novalidate>
+      <h2 class="nueva__titulo">Nueva publicación</h2>
+
+      <div class="nueva__campo">
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" [formField]="publicacionForm.titulo" />
+        @if (publicacionForm.titulo().touched()) {
+          @for (error of publicacionForm.titulo().errors(); track error.kind) {
+            <p class="nueva__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div class="nueva__campo">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="4" [formField]="publicacionForm.mensaje"></textarea>
+        <p class="nueva__contador">{{ publicacionModel().mensaje.length }} / 1000</p>
+        @if (publicacionForm.mensaje().touched()) {
+          @for (error of publicacionForm.mensaje().errors(); track error.kind) {
+            <p class="nueva__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div class="nueva__campo">
+        <label for="imagen">Imagen (opcional)</label>
+        <input id="imagen" type="file" accept="image/*" (change)="seleccionarImagen($event)" />
+        @if (vistaPrevia()) {
+          <img class="nueva__vista-previa" [src]="vistaPrevia()" alt="Vista previa de la imagen" />
+        }
+        @if (errorImagen()) {
+          <p class="nueva__error">{{ errorImagen() }}</p>
+        }
+      </div>
+
+      <button matButton="filled" type="submit" [disabled]="publicacionForm().submitting()">
+        {{ publicacionForm().submitting() ? 'Publicando...' : 'Publicar' }}
+      </button>
+    </form>
+  }
+
+  <div class="barra">
+    <div class="barra__orden">
+      <label for="orden">Ordenar por</label>
+      <select id="orden" [value]="orden()" (change)="cambiarOrden($event)">
+        <option value="fecha">Más recientes</option>
+        <option value="meGusta">Más me gusta</option>
+      </select>
+    </div>
+    <span class="barra__total">{{ total() }} {{ total() === 1 ? 'publicación' : 'publicaciones' }}</span>
+  </div>
+
+  @if (cargando() && items().length === 0) {
+    <p class="estado">Cargando publicaciones...</p>
+  } @else if (items().length === 0) {
+    <div class="vacio">
+      <h2>Todavía no hay publicaciones</h2>
+      <p>Sé el primero en publicar algo con el botón "Nueva publicación".</p>
+    </div>
+  } @else {
+    <div class="lista" [class.lista--cargando]="cargando()">
+      @for (publicacion of items(); track publicacion._id) {
+        <app-tarjeta-publicacion [publicacion]="publicacion" (eliminada)="cargar()" />
+      }
+    </div>
+
+    <nav class="paginacion" aria-label="Paginación de publicaciones">
+      <button matButton type="button" [disabled]="pagina() === 1 || cargando()" (click)="irAPagina(pagina() - 1)">Anterior</button>
+      <span>Página {{ pagina() }} de {{ totalPaginas() }}</span>
+      <button matButton type="button" [disabled]="pagina() >= totalPaginas() || cargando()" (click)="irAPagina(pagina() + 1)">Siguiente</button>
+    </nav>
+  }
 </section>

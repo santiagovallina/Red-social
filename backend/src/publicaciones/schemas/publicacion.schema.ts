@@ -3,7 +3,7 @@ import { HydratedDocument, Types } from 'mongoose';
 
 export type PublicacionDocument = HydratedDocument<Publicacion>;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'publicaciones' })
 export class Publicacion {
   @Prop({ type: Types.ObjectId, ref: 'Usuario', required: true })
   autor!: Types.ObjectId;
@@ -28,3 +28,5 @@ export class Publicacion {
 }
 
 export const PublicacionSchema = SchemaFactory.createForClass(Publicacion);
+PublicacionSchema.index({ eliminada: 1, createdAt: -1 });
+PublicacionSchema.index({ eliminada: 1, cantidadMeGusta: -1, createdAt: -1 });

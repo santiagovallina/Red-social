@@ -4,17 +4,21 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { ArchivosService } from '../archivos/archivos.service.js';
+import { UsuarioDocument } from '../usuarios/schemas/usuario.schema.js';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { RegistroDto } from './dto/registro.dto.js';
+import type { PayloadToken } from './payload-token.js';
 
 @Injectable()
 export class AutenticacionService {
   constructor(
     private readonly usuariosService: UsuariosService,
     private readonly archivosService: ArchivosService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async registro(dto: RegistroDto, foto?: Express.Multer.File) {
@@ -38,8 +42,7 @@ export class AutenticacionService {
       imagenUrl,
     });
 
-    const { password, ...datos } = usuario.toObject();
-    return datos;
+    return this.respuestaConToken(usuario);
   }
 
   async login(dto: LoginDto) {
@@ -56,7 +59,18 @@ export class AutenticacionService {
       throw new ForbiddenException('Tu cuenta está deshabilitada');
     }
 
+    return this.respuestaConToken(usuario);
+  }
+
+  private async respuestaConToken(usuario: UsuarioDocument) {
+    const payload: PayloadToken = {
+      sub: usuario._id.toString(),
+      usuario: usuario.usuario,
+      perfil: usuario.perfil,
+    };
+    const token = await this.jwtService.signAsync(payload);
+
     const { password, ...datos } = usuario.toObject();
-    return datos;
+    return { ...datos, token };
   }
 }

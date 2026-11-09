@@ -1,0 +1,133 @@
+.tarjeta {
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border-top: 4px solid var(--rc-celeste);
+  border-radius: 8px;
+}
+
+.tarjeta__cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tarjeta__avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 2px solid var(--rc-celeste);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tarjeta__avatar--inicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rc-celeste);
+  color: var(--rc-azul);
+  font-weight: 700;
+}
+
+.tarjeta__autor {
+  flex: 1;
+  min-width: 0;
+}
+
+.tarjeta__nombre {
+  margin: 0;
+  font-weight: 700;
+  color: var(--rc-azul);
+}
+
+.tarjeta__fecha {
+  margin: 0.1rem 0 0;
+  color: #777777;
+  font-size: 0.8rem;
+}
+
+.tarjeta__titulo {
+  margin: 1rem 0 0.5rem;
+  color: var(--rc-azul);
+  font-size: 1.2rem;
+  overflow-wrap: anywhere;
+}
+
+.tarjeta__mensaje {
+  margin: 0 0 1rem;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.tarjeta__imagen {
+  display: block;
+  width: 100%;
+  max-height: 24rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.tarjeta__pie {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.tarjeta__me-gusta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  background: transparent;
+  color: var(--rc-azul);
+  border: 1px solid var(--rc-celeste);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tarjeta__me-gusta:hover:not(:disabled) {
+  background: var(--rc-celeste-suave);
+}
+
+.tarjeta__me-gusta:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.tarjeta__me-gusta--activo {
+  background: var(--rc-celeste);
+}
+
+.tarjeta__me-gusta .material-icons {
+  font-size: 1.1rem;
+}
+
+.tarjeta__contador {
+  color: #555555;
+  font-size: 0.9rem;
+}
+
+.tarjeta__comentarios {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--rc-fondo);
+  border-radius: 8px;
+}
+
+.tarjeta__comentarios h3 {
+  margin: 0 0 0.25rem;
+  color: var(--rc-azul);
+  font-size: 0.95rem;
+}
+
+.tarjeta__comentarios p {
+  margin: 0;
+  color: #777777;
+  font-size: 0.9rem;
+}

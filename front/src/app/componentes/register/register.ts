@@ -17,8 +17,7 @@ import { firstValueFrom } from 'rxjs';
 import { RegistroData } from '../../modelos/registro-data';
 import { Auth } from '../../servicios/auth';
 import { Modal } from '../../servicios/modal';
-
-const TAMANO_MAXIMO_FOTO = 2 * 1024 * 1024;
+import { validarImagen } from '../../utilidades/imagen';
 
 function fechaDeHoy(): string {
   const ahora = new Date();
@@ -99,13 +98,9 @@ export class Register {
     if (!archivo) {
       return;
     }
-    if (!archivo.type.startsWith('image/')) {
-      this.errorFoto.set('El archivo debe ser una imagen');
-      entrada.value = '';
-      return;
-    }
-    if (archivo.size > TAMANO_MAXIMO_FOTO) {
-      this.errorFoto.set('La imagen no puede pesar más de 2 MB');
+    const errorImagen = validarImagen(archivo);
+    if (errorImagen) {
+      this.errorFoto.set(errorImagen);
       entrada.value = '';
       return;
     }
