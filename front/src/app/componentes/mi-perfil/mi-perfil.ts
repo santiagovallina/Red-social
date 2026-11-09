@@ -5,10 +5,11 @@ import { firstValueFrom } from 'rxjs';
 import { Publicacion } from '../../modelos/publicacion';
 import { Auth } from '../../servicios/auth';
 import { PublicacionesApi } from '../../servicios/publicaciones-api';
+import { Spinner } from '../spinner/spinner';
 import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
 
 @Component({
-  imports: [DatePipe, TarjetaPublicacion],
+  imports: [DatePipe, Spinner, TarjetaPublicacion],
   selector: 'app-mi-perfil',
   styleUrl: './mi-perfil.css',
   templateUrl: './mi-perfil.html',

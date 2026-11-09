@@ -8,12 +8,13 @@ import { Auth } from '../../servicios/auth';
 import { Modal } from '../../servicios/modal';
 import { PublicacionesApi } from '../../servicios/publicaciones-api';
 import { validarImagen } from '../../utilidades/imagen';
+import { Spinner } from '../spinner/spinner';
 import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
 
 const PUBLICACIONES_POR_PAGINA = 5;
 
 @Component({
-  imports: [FormField, MatButtonModule, TarjetaPublicacion],
+  imports: [FormField, MatButtonModule, Spinner, TarjetaPublicacion],
   selector: 'app-publicaciones',
   styleUrl: './publicaciones.css',
   templateUrl: './publicaciones.html',

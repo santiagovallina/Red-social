@@ -62,24 +62,24 @@
     <span class="barra__total">{{ total() }} {{ total() === 1 ? 'publicación' : 'publicaciones' }}</span>
   </div>
 
-  @if (cargando() && items().length === 0) {
-    <p class="estado">Cargando publicaciones...</p>
+  @if (cargando()) {
+    <app-spinner mensaje="Cargando publicaciones..." />
   } @else if (items().length === 0) {
     <div class="vacio">
       <h2>Todavía no hay publicaciones</h2>
       <p>Sé el primero en publicar algo con el botón "Nueva publicación".</p>
     </div>
   } @else {
-    <div class="lista" [class.lista--cargando]="cargando()">
+    <div class="lista">
       @for (publicacion of items(); track publicacion._id) {
         <app-tarjeta-publicacion [publicacion]="publicacion" (eliminada)="cargar()" />
       }
     </div>
 
     <nav class="paginacion" aria-label="Paginación de publicaciones">
-      <button matButton type="button" [disabled]="pagina() === 1 || cargando()" (click)="irAPagina(pagina() - 1)">Anterior</button>
+      <button matButton type="button" [disabled]="pagina() === 1" (click)="irAPagina(pagina() - 1)">Anterior</button>
       <span>Página {{ pagina() }} de {{ totalPaginas() }}</span>
-      <button matButton type="button" [disabled]="pagina() >= totalPaginas() || cargando()" (click)="irAPagina(pagina() + 1)">Siguiente</button>
+      <button matButton type="button" [disabled]="pagina() >= totalPaginas()" (click)="irAPagina(pagina() + 1)">Siguiente</button>
     </nav>
   }
 </section>
