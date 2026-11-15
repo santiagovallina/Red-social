@@ -70,6 +70,7 @@
 
 .tarjeta__pie {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
   padding-top: 0.75rem;
@@ -113,23 +114,20 @@
   font-size: 0.9rem;
 }
 
-.tarjeta__comentarios {
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
-  background: var(--rc-fondo);
-  border-radius: 8px;
-}
-
-.tarjeta__comentarios h3 {
-  margin: 0 0 0.25rem;
+.tarjeta__ver-comentarios {
+  margin-left: auto;
+  padding: 0.25rem 0;
+  background: none;
+  border: none;
   color: var(--rc-azul);
-  font-size: 0.95rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
-.tarjeta__comentarios p {
-  margin: 0;
-  color: #777777;
-  font-size: 0.9rem;
+.tarjeta__ver-comentarios:hover {
+  text-decoration: underline;
 }
 
 .tarjeta__enlace {
@@ -157,26 +155,3 @@
   max-height: 36rem;
 }
 
-.tarjeta__lista-comentarios {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.9rem;
-  overflow-wrap: anywhere;
-}
-
-.tarjeta__editado {
-  color: #777777;
-  font-size: 0.8rem;
-}
-
-.tarjeta__ver-todos {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: var(--rc-azul);
-  font-size: 0.9rem;
-  font-weight: 500;
-}

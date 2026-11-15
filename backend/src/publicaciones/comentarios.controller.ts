@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -50,6 +51,19 @@ export class ComentariosController {
       comentarioId,
       usuario.sub,
       dto,
+    );
+  }
+
+  @Delete(':comentarioId')
+  eliminar(
+    @Param('publicacionId', ParseObjectIdPipe) publicacionId: string,
+    @Param('comentarioId', ParseObjectIdPipe) comentarioId: string,
+    @UsuarioActual() usuario: PayloadToken,
+  ) {
+    return this.comentariosService.eliminar(
+      publicacionId,
+      comentarioId,
+      usuario.sub,
     );
   }
 }

@@ -10,6 +10,7 @@ import { ArchivosService } from '../archivos/archivos.service.js';
 import type { PayloadToken } from '../autenticacion/payload-token.js';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
 import { ListarPublicacionesDto } from './dto/listar-publicaciones.dto.js';
+import { Comentario, ComentarioDocument } from './schemas/comentario.schema.js';
 import {
   Publicacion,
   PublicacionDocument,
@@ -23,6 +24,8 @@ export class PublicacionesService {
   constructor(
     @InjectModel(Publicacion.name)
     private readonly publicacionModel: Model<PublicacionDocument>,
+    @InjectModel(Comentario.name)
+    private readonly comentarioModel: Model<ComentarioDocument>,
     private readonly archivosService: ArchivosService,
   ) {}
 
@@ -70,9 +73,17 @@ export class PublicacionesService {
       this.publicacionModel.countDocuments(filtro).exec(),
     ]);
 
+    const comentarios = await this.contarComentarios(
+      publicaciones.map((publicacion) => publicacion._id),
+    );
+
     return {
       items: publicaciones.map((publicacion) =>
-        this.presentar(publicacion, usuarioId),
+        this.presentar(
+          publicacion,
+          usuarioId,
+          comentarios.get(publicacion._id.toString()) ?? 0,
+        ),
       ),
       total,
       offset,
@@ -88,7 +99,13 @@ export class PublicacionesService {
     if (!publicacion) {
       throw new NotFoundException('La publicación no existe');
     }
-    return this.presentar(publicacion, usuarioId);
+
+    const comentarios = await this.contarComentarios([publicacion._id]);
+    return this.presentar(
+      publicacion,
+      usuarioId,
+      comentarios.get(publicacion._id.toString()) ?? 0,
+    );
   }
 
   async eliminar(id: string, usuario: PayloadToken) {
@@ -167,8 +184,26 @@ export class PublicacionesService {
     );
   }
 
-  private presentar(publicacion: PublicacionDocument, usuarioId: string) {
+  private async contarComentarios(ids: Types.ObjectId[]) {
+    const totales = await this.comentarioModel
+      .aggregate<{ _id: Types.ObjectId; total: number }>([
+        { $match: { publicacion: { $in: ids }, eliminado: { $ne: true } } },
+        { $group: { _id: '$publicacion', total: { $sum: 1 } } },
+      ])
+      .exec();
+    return new Map(totales.map((fila) => [fila._id.toString(), fila.total]));
+  }
+
+  private presentar(
+    publicacion: PublicacionDocument,
+    usuarioId: string,
+    cantidadComentarios = 0,
+  ) {
     const { meGusta, ...datos } = publicacion.toObject();
-    return { ...datos, meGustaYo: this.leGusta(publicacion, usuarioId) };
+    return {
+      ...datos,
+      meGustaYo: this.leGusta(publicacion, usuarioId),
+      cantidadComentarios,
+    };
   }
 }

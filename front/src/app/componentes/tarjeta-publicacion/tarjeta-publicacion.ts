@@ -1,65 +1,56 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, input, linkedSignal, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, output, signal, viewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { Comentario } from '../../modelos/comentario';
 import { Publicacion } from '../../modelos/publicacion';
 import { Auth } from '../../servicios/auth';
-import { ComentariosApi } from '../../servicios/comentarios-api';
 import { Modal } from '../../servicios/modal';
 import { PublicacionesApi } from '../../servicios/publicaciones-api';
-
-const COMENTARIOS_EN_RESUMEN = 3;
+import { ComentariosPublicacion } from '../comentarios-publicacion/comentarios-publicacion';
 
 @Component({
-  imports: [DatePipe, MatButtonModule, RouterLink],
+  imports: [ComentariosPublicacion, DatePipe, MatButtonModule, RouterLink],
   selector: 'app-tarjeta-publicacion',
   styleUrl: './tarjeta-publicacion.css',
   templateUrl: './tarjeta-publicacion.html',
 })
-export class TarjetaPublicacion implements OnInit {
+export class TarjetaPublicacion {
   private auth = inject(Auth);
   private api = inject(PublicacionesApi);
-  private comentariosApi = inject(ComentariosApi);
   private modal = inject(Modal);
 
   publicacion = input.required<Publicacion>();
-  mostrarComentarios = input(false);
+  abrirComentarios = input(false);
   grande = input(false);
   enlace = input(true);
   eliminada = output<void>();
 
-  comentarios = signal<Comentario[]>([]);
-  totalComentarios = signal(0);
-  cargandoComentarios = signal(false);
-  errorComentarios = signal(false);
+  private seccionComentarios = viewChild(ComentariosPublicacion);
 
   cantidadMeGusta = linkedSignal(() => this.publicacion().cantidadMeGusta);
   meGustaYo = linkedSignal(() => this.publicacion().meGustaYo);
+  totalComentarios = linkedSignal(() => this.publicacion().cantidadComentarios ?? 0);
+  comentariosAbiertos = linkedSignal(() => this.abrirComentarios());
+  enfocarAlAbrir = signal(false);
   trabajando = signal(false);
 
   esMia = computed(() => this.auth.usuario()?._id === this.publicacion().autor._id);
   inicial = computed(() => this.publicacion().autor.nombre.charAt(0).toUpperCase());
 
-  async ngOnInit() {
-    if (!this.mostrarComentarios()) {
+  alternarComentarios() {
+    this.enfocarAlAbrir.set(false);
+    this.comentariosAbiertos.update((abiertos) => !abiertos);
+  }
+
+  comentar() {
+    if (this.comentariosAbiertos()) {
+      this.seccionComentarios()?.enfocarCaja();
       return;
     }
-
-    this.cargandoComentarios.set(true);
-    try {
-      const pagina = await firstValueFrom(
-        this.comentariosApi.listar(this.publicacion()._id, { limit: COMENTARIOS_EN_RESUMEN }),
-      );
-      this.comentarios.set(pagina.items);
-      this.totalComentarios.set(pagina.total);
-    } catch {
-      this.errorComentarios.set(true);
-    } finally {
-      this.cargandoComentarios.set(false);
-    }
+    this.enfocarAlAbrir.set(true);
+    this.comentariosAbiertos.set(true);
   }
 
   async alternarMeGusta() {

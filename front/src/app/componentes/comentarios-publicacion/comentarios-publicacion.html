@@ -1,0 +1,41 @@
+<section class="comentarios" aria-label="Comentarios">
+  <form class="nuevo" (submit)="enviar($event)" novalidate>
+    <label class="nuevo__etiqueta" [for]="'comentario-' + publicacionId()">Escribí un comentario</label>
+    <textarea #caja [id]="'comentario-' + publicacionId()" rows="2" [formField]="comentarioForm.mensaje"></textarea>
+    <p class="nuevo__contador">{{ comentarioModel().mensaje.length }} / 500</p>
+    @if (comentarioForm.mensaje().touched()) {
+      @for (error of comentarioForm.mensaje().errors(); track error.kind) {
+        <p class="nuevo__error">{{ error.message }}</p>
+      }
+    }
+    <button matButton="filled" type="submit" [disabled]="comentarioForm().submitting()">
+      {{ comentarioForm().submitting() ? 'Enviando...' : 'Comentar' }}
+    </button>
+  </form>
+
+  @if (cargando() && comentarios().length === 0) {
+    <app-spinner mensaje="Cargando comentarios..." />
+  } @else if (comentarios().length === 0) {
+    <p class="comentarios__vacio">Todavía no hay comentarios. ¡Sé el primero en comentar!</p>
+  } @else {
+    <div class="comentarios__lista">
+      @for (comentario of comentarios(); track comentario._id) {
+        <app-tarjeta-comentario
+          [comentario]="comentario"
+          [publicacionId]="publicacionId()"
+          [duenoPublicacionId]="duenoId()"
+          (actualizado)="reemplazar($event)"
+          (eliminado)="quitar($event)"
+        />
+      }
+    </div>
+
+    @if (restantes() > 0) {
+      <div class="comentarios__mas">
+        <button matButton type="button" [disabled]="cargando()" (click)="cargar()">
+          {{ cargando() ? 'Cargando...' : 'Cargar más comentarios (' + restantes() + ')' }}
+        </button>
+      </div>
+    }
+  }
+</section>

@@ -26,7 +26,7 @@ export class ComentariosService {
   ) {}
 
   async crear(publicacionId: string, usuarioId: string, dto: ComentarioDto) {
-    await this.verificarQueExiste(publicacionId);
+    await this.obtenerPublicacion(publicacionId);
 
     const creado = await this.comentarioModel.create({
       publicacion: new Types.ObjectId(publicacionId),
@@ -38,11 +38,14 @@ export class ComentariosService {
   }
 
   async listar(publicacionId: string, consulta: ListarComentariosDto) {
-    await this.verificarQueExiste(publicacionId);
+    await this.obtenerPublicacion(publicacionId);
 
     const offset = consulta.offset ?? 0;
     const limit = consulta.limit ?? LIMITE_POR_DEFECTO;
-    const filtro = { publicacion: new Types.ObjectId(publicacionId) };
+    const filtro = {
+      publicacion: new Types.ObjectId(publicacionId),
+      eliminado: { $ne: true },
+    };
 
     const [comentarios, total] = await Promise.all([
       this.comentarioModel
@@ -69,17 +72,9 @@ export class ComentariosService {
     usuarioId: string,
     dto: ComentarioDto,
   ) {
-    await this.verificarQueExiste(publicacionId);
+    await this.obtenerPublicacion(publicacionId);
+    const comentario = await this.obtenerComentario(publicacionId, comentarioId);
 
-    const comentario = await this.comentarioModel
-      .findOne({
-        _id: comentarioId,
-        publicacion: new Types.ObjectId(publicacionId),
-      })
-      .exec();
-    if (!comentario) {
-      throw new NotFoundException('El comentario no existe');
-    }
     if (comentario.autor.toString() !== usuarioId) {
       throw new ForbiddenException('Solo el autor puede editar el comentario');
     }
@@ -91,12 +86,44 @@ export class ComentariosService {
     return comentario.toObject();
   }
 
-  private async verificarQueExiste(publicacionId: string) {
-    const existe = await this.publicacionModel
-      .exists({ _id: publicacionId, eliminada: false })
+  async eliminar(publicacionId: string, comentarioId: string, usuarioId: string) {
+    const publicacion = await this.obtenerPublicacion(publicacionId);
+    const comentario = await this.obtenerComentario(publicacionId, comentarioId);
+
+    const esAutorDelComentario = comentario.autor.toString() === usuarioId;
+    const esDuenoDeLaPublicacion = publicacion.autor.toString() === usuarioId;
+    if (!esAutorDelComentario && !esDuenoDeLaPublicacion) {
+      throw new ForbiddenException(
+        'Solo quien escribió el comentario o el dueño de la publicación pueden eliminarlo',
+      );
+    }
+
+    comentario.eliminado = true;
+    await comentario.save();
+    return { mensaje: 'El comentario fue eliminado' };
+  }
+
+  private async obtenerPublicacion(publicacionId: string) {
+    const publicacion = await this.publicacionModel
+      .findOne({ _id: publicacionId, eliminada: false })
       .exec();
-    if (!existe) {
+    if (!publicacion) {
       throw new NotFoundException('La publicación no existe');
     }
+    return publicacion;
+  }
+
+  private async obtenerComentario(publicacionId: string, comentarioId: string) {
+    const comentario = await this.comentarioModel
+      .findOne({
+        _id: comentarioId,
+        publicacion: new Types.ObjectId(publicacionId),
+        eliminado: { $ne: true },
+      })
+      .exec();
+    if (!comentario) {
+      throw new NotFoundException('El comentario no existe');
+    }
+    return comentario;
   }
 }

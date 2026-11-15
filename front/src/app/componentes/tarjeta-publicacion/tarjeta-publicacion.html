@@ -41,37 +41,27 @@
       <span class="material-icons" aria-hidden="true">{{ meGustaYo() ? 'favorite' : 'favorite_border' }}</span>
       <span>{{ meGustaYo() ? 'Quitar me gusta' : 'Me gusta' }}</span>
     </button>
+    <button class="tarjeta__me-gusta" type="button" (click)="comentar()">
+      <span class="material-icons" aria-hidden="true">chat_bubble_outline</span>
+      <span>Comentar</span>
+    </button>
     <span class="tarjeta__contador">{{ cantidadMeGusta() }} me gusta</span>
+    <button
+      class="tarjeta__ver-comentarios"
+      type="button"
+      [attr.aria-expanded]="comentariosAbiertos()"
+      (click)="alternarComentarios()"
+    >
+      {{ totalComentarios() }} {{ totalComentarios() === 1 ? 'comentario' : 'comentarios' }}
+    </button>
   </footer>
 
-  @if (mostrarComentarios()) {
-    <section class="tarjeta__comentarios">
-      <h3>Comentarios ({{ totalComentarios() }})</h3>
-
-      @if (cargandoComentarios()) {
-        <p>Cargando comentarios...</p>
-      } @else if (errorComentarios()) {
-        <p>No pudimos cargar los comentarios.</p>
-      } @else if (comentarios().length === 0) {
-        <p>Todavía no hay comentarios.</p>
-      } @else {
-        <ul class="tarjeta__lista-comentarios">
-          @for (comentario of comentarios(); track comentario._id) {
-            <li>
-              <strong>&#64;{{ comentario.autor.usuario }}</strong>
-              {{ comentario.mensaje }}
-              @if (comentario.modificado) {
-                <em class="tarjeta__editado">(editado)</em>
-              }
-            </li>
-          }
-        </ul>
-        @if (totalComentarios() > comentarios().length) {
-          <a class="tarjeta__ver-todos" [routerLink]="['/publicacion', publicacion()._id]">
-            Ver los {{ totalComentarios() }} comentarios
-          </a>
-        }
-      }
-    </section>
+  @if (comentariosAbiertos()) {
+    <app-comentarios-publicacion
+      [publicacionId]="publicacion()._id"
+      [duenoId]="publicacion().autor._id"
+      [enfocar]="enfocarAlAbrir()"
+      (totalCambio)="totalComentarios.set($event)"
+    />
   }
 </article>

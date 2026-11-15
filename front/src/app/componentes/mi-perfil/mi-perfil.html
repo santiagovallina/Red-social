@@ -43,9 +43,7 @@
       <div class="ultimas__lista">
         @for (publicacion of ultimas(); track publicacion._id) {
           <app-tarjeta-publicacion
-            [publicacion]="publicacion"
-            [mostrarComentarios]="true"
-            (eliminada)="cargarUltimas()"
+            [publicacion]="publicacion"            (eliminada)="cargarUltimas()"
           />
         }
       </div>

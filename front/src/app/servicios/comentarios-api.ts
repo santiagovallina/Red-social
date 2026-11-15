@@ -33,4 +33,8 @@ export class ComentariosApi {
   editar(publicacionId: string, comentarioId: string, mensaje: string) {
     return this.http.put<Comentario>(`${this.url(publicacionId)}/${comentarioId}`, { mensaje });
   }
+
+  eliminar(publicacionId: string, comentarioId: string) {
+    return this.http.delete<{ mensaje: string }>(`${this.url(publicacionId)}/${comentarioId}`);
+  }
 }

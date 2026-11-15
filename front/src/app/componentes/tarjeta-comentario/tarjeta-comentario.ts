@@ -23,7 +23,9 @@ export class TarjetaComentario {
 
   comentario = input.required<Comentario>();
   publicacionId = input.required<string>();
+  duenoPublicacionId = input<string>();
   actualizado = output<Comentario>();
+  eliminado = output<string>();
 
   readonly maximo = MAXIMO_CARACTERES;
   editando = signal(false);
@@ -31,6 +33,9 @@ export class TarjetaComentario {
   guardando = signal(false);
 
   esMio = computed(() => this.auth.usuario()?._id === this.comentario().autor._id);
+  puedeEliminar = computed(
+    () => this.esMio() || this.auth.usuario()?._id === this.duenoPublicacionId(),
+  );
   inicial = computed(() => this.comentario().autor.nombre.charAt(0).toUpperCase());
   errorBorrador = computed(() => {
     const texto = this.borrador().trim();
@@ -84,18 +89,40 @@ export class TarjetaComentario {
     }
   }
 
-  private avisarError(error: unknown) {
+  async eliminar() {
+    const confirmado = await this.modal.confirmar(
+      'Eliminar comentario',
+      '¿Querés eliminar este comentario? Esta acción no se puede deshacer.',
+      'Eliminar',
+    );
+    if (!confirmado) {
+      return;
+    }
+
+    try {
+      await firstValueFrom(this.api.eliminar(this.publicacionId(), this.comentario()._id));
+      this.eliminado.emit(this.comentario()._id);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 404) {
+        this.eliminado.emit(this.comentario()._id);
+        return;
+      }
+      this.avisarError(error, 'No pudimos eliminar el comentario');
+    }
+  }
+
+  private avisarError(error: unknown, titulo = 'No pudimos editar el comentario') {
     const estado = error instanceof HttpErrorResponse ? error.status : 0;
     if (estado === 401) {
       return;
     }
 
     const mensajes: Record<number, string> = {
-      403: 'Solo el autor puede editar este comentario.',
+      403: 'No tenés permiso para hacer esto con este comentario.',
       404: 'El comentario ya no existe.',
     };
     this.modal.mostrar(
-      'No pudimos editar el comentario',
+      titulo,
       mensajes[estado] ?? 'No pudimos comunicarnos con el servidor. Intentá de nuevo en unos minutos.',
     );
   }

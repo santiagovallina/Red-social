@@ -18,49 +18,8 @@
       [publicacion]="publicacionActual"
       [grande]="true"
       [enlace]="false"
+      [abrirComentarios]="true"
       (eliminada)="alEliminarPublicacion()"
     />
-
-    <section class="comentarios" aria-label="Comentarios">
-      <h2 class="comentarios__titulo">Comentarios ({{ totalComentarios() }})</h2>
-
-      <form class="nuevo" (submit)="enviarComentario($event)" novalidate>
-        <label class="nuevo__etiqueta" for="comentario">Escribí un comentario</label>
-        <textarea id="comentario" rows="3" [formField]="comentarioForm.mensaje"></textarea>
-        <p class="nuevo__contador">{{ comentarioModel().mensaje.length }} / 500</p>
-        @if (comentarioForm.mensaje().touched()) {
-          @for (error of comentarioForm.mensaje().errors(); track error.kind) {
-            <p class="nuevo__error">{{ error.message }}</p>
-          }
-        }
-        <button matButton="filled" type="submit" [disabled]="comentarioForm().submitting()">
-          {{ comentarioForm().submitting() ? 'Enviando...' : 'Comentar' }}
-        </button>
-      </form>
-
-      @if (cargandoComentarios() && comentarios().length === 0) {
-        <app-spinner mensaje="Cargando comentarios..." />
-      } @else if (comentarios().length === 0) {
-        <p class="comentarios__vacio">Todavía no hay comentarios. ¡Sé el primero en comentar!</p>
-      } @else {
-        <div class="comentarios__lista">
-          @for (comentario of comentarios(); track comentario._id) {
-            <app-tarjeta-comentario
-              [comentario]="comentario"
-              [publicacionId]="publicacionActual._id"
-              (actualizado)="reemplazarComentario($event)"
-            />
-          }
-        </div>
-
-        @if (restantes() > 0) {
-          <div class="comentarios__mas">
-            <button matButton type="button" [disabled]="cargandoComentarios()" (click)="cargarComentarios()">
-              {{ cargandoComentarios() ? 'Cargando...' : 'Cargar más comentarios (' + restantes() + ')' }}
-            </button>
-          </div>
-        }
-      }
-    </section>
   }
 </section>

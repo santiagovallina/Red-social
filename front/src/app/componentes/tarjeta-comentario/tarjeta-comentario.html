@@ -34,9 +34,14 @@
       </div>
     } @else {
       <p class="comentario__texto">{{ comentario().mensaje }}</p>
-      @if (esMio()) {
+      @if (esMio() || puedeEliminar()) {
         <div class="comentario__acciones">
-          <button matButton type="button" (click)="editar()">Editar</button>
+          @if (esMio()) {
+            <button matButton type="button" (click)="editar()">Editar</button>
+          }
+          @if (puedeEliminar()) {
+            <button matButton type="button" (click)="eliminar()">Eliminar</button>
+          }
         </div>
       }
     }
