@@ -1,5 +1,9 @@
-@if (auth.logueado()) {
-  <app-navbar />
-}
+@if (iniciando()) {
+  <app-pantalla-carga />
+} @else {
+  @if (auth.logueado()) {
+    <app-navbar />
+  }
 
-<router-outlet />
+  <router-outlet />
+}

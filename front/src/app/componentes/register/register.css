@@ -1,11 +1,21 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 2rem 0;
+  background: var(--rc-fondo-rayas);
+  background-attachment: fixed;
+}
+
 .registro {
   box-sizing: border-box;
   width: min(100% - 2rem, 34rem);
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 2rem 1.5rem;
   background: #ffffff;
   border-top: 4px solid var(--rc-celeste);
   border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 2, 46, 0.25);
 }
 
 .registro__titulo {

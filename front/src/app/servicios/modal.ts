@@ -16,9 +16,14 @@ export class Modal {
     });
   }
 
-  async confirmar(titulo: string, mensaje: string, textoAceptar = 'Aceptar') {
+  async confirmar(
+    titulo: string,
+    mensaje: string,
+    textoAceptar = 'Aceptar',
+    textoCancelar = 'Cancelar',
+  ) {
     const dialogo = this.dialog.open(ModalConfirmacion, {
-      data: { titulo, mensaje, textoAceptar },
+      data: { titulo, mensaje, textoAceptar, textoCancelar },
       width: '26rem',
       maxWidth: '90vw',
     });

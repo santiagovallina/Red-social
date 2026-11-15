@@ -6,6 +6,9 @@ html {
   --rc-azul: #00022e;
   --rc-fondo: #f4f4f4;
   --rc-fuente: 'Montserrat', Arial, Helvetica, sans-serif;
+  --rc-fondo-rayas:
+    linear-gradient(rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.62)),
+    url('/fondo-rayas.webp') center / cover no-repeat;
 
   /* Colores de Angular Material */
   --mat-sys-primary: var(--rc-azul);

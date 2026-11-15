@@ -30,6 +30,10 @@ export class PublicacionesApi {
     return this.http.get<PaginaPublicaciones>(this.url, { params });
   }
 
+  obtener(id: string) {
+    return this.http.get<Publicacion>(`${this.url}/${id}`);
+  }
+
   crear(datos: FormData) {
     return this.http.post<Publicacion>(this.url, datos);
   }

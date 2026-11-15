@@ -1,4 +1,4 @@
-<article class="tarjeta">
+<article class="tarjeta" [class.tarjeta--grande]="grande()">
   <header class="tarjeta__cabecera">
     @if (publicacion().autor.imagenUrl) {
       <img class="tarjeta__avatar" [src]="publicacion().autor.imagenUrl" alt="Foto de {{ publicacion().autor.usuario }}" />
@@ -16,7 +16,13 @@
     }
   </header>
 
-  <h2 class="tarjeta__titulo">{{ publicacion().titulo }}</h2>
+  <h2 class="tarjeta__titulo">
+    @if (enlace()) {
+      <a class="tarjeta__enlace" [routerLink]="['/publicacion', publicacion()._id]">{{ publicacion().titulo }}</a>
+    } @else {
+      {{ publicacion().titulo }}
+    }
+  </h2>
   <p class="tarjeta__mensaje">{{ publicacion().mensaje }}</p>
 
   @if (publicacion().imagenUrl) {
@@ -40,8 +46,32 @@
 
   @if (mostrarComentarios()) {
     <section class="tarjeta__comentarios">
-      <h3>Comentarios</h3>
-      <p>Todavía no hay comentarios.</p>
+      <h3>Comentarios ({{ totalComentarios() }})</h3>
+
+      @if (cargandoComentarios()) {
+        <p>Cargando comentarios...</p>
+      } @else if (errorComentarios()) {
+        <p>No pudimos cargar los comentarios.</p>
+      } @else if (comentarios().length === 0) {
+        <p>Todavía no hay comentarios.</p>
+      } @else {
+        <ul class="tarjeta__lista-comentarios">
+          @for (comentario of comentarios(); track comentario._id) {
+            <li>
+              <strong>&#64;{{ comentario.autor.usuario }}</strong>
+              {{ comentario.mensaje }}
+              @if (comentario.modificado) {
+                <em class="tarjeta__editado">(editado)</em>
+              }
+            </li>
+          }
+        </ul>
+        @if (totalComentarios() > comentarios().length) {
+          <a class="tarjeta__ver-todos" [routerLink]="['/publicacion', publicacion()._id]">
+            Ver los {{ totalComentarios() }} comentarios
+          </a>
+        }
+      }
     </section>
   }
 </article>

@@ -62,6 +62,25 @@ export class AutenticacionService {
     return this.respuestaConToken(usuario);
   }
 
+  async autorizar(payload: PayloadToken) {
+    const usuario = await this.usuariosService.buscarPorId(payload.sub);
+    if (!usuario || !usuario.habilitado) {
+      throw new UnauthorizedException('La sesión ya no es válida');
+    }
+
+    const { password, ...datos } = usuario.toObject();
+    return datos;
+  }
+
+  async refrescar(payload: PayloadToken) {
+    const token = await this.jwtService.signAsync({
+      sub: payload.sub,
+      usuario: payload.usuario,
+      perfil: payload.perfil,
+    });
+    return { token };
+  }
+
   private async respuestaConToken(usuario: UsuarioDocument) {
     const payload: PayloadToken = {
       sub: usuario._id.toString(),

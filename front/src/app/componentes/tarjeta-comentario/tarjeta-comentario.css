@@ -1,0 +1,99 @@
+.comentario {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border-left: 3px solid var(--rc-celeste);
+  border-radius: 8px;
+}
+
+.comentario__avatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 2px solid var(--rc-celeste);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comentario__avatar--inicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rc-celeste);
+  color: var(--rc-azul);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.comentario__cuerpo {
+  flex: 1;
+  min-width: 0;
+}
+
+.comentario__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.6rem;
+}
+
+.comentario__nombre {
+  color: var(--rc-azul);
+  font-weight: 700;
+}
+
+.comentario__meta {
+  color: #777777;
+  font-size: 0.8rem;
+}
+
+.comentario__editado {
+  padding: 0.05rem 0.5rem;
+  background: var(--rc-celeste-suave);
+  color: var(--rc-azul);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.comentario__texto {
+  margin: 0.35rem 0 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.comentario__texto-editable {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  font: inherit;
+  border: 1px solid #c9c9c9;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+}
+
+.comentario__texto-editable:focus {
+  border-color: var(--rc-celeste);
+}
+
+.comentario__contador {
+  margin: 0.15rem 0 0;
+  color: #777777;
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.comentario__error {
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.8rem;
+}
+
+.comentario__acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}

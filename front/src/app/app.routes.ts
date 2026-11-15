@@ -18,6 +18,14 @@ export const routes: Routes = [
       import('./componentes/publicaciones/publicaciones').then((m) => m.Publicaciones),
   },
   {
+    path: 'publicacion/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./componentes/detalle-publicacion/detalle-publicacion').then(
+        (m) => m.DetallePublicacion,
+      ),
+  },
+  {
     path: 'mi-perfil',
     canActivate: [authGuard],
     loadComponent: () => import('./componentes/mi-perfil/mi-perfil').then((m) => m.MiPerfil),

@@ -6,6 +6,7 @@ export interface DatosConfirmacion {
   titulo: string;
   mensaje: string;
   textoAceptar: string;
+  textoCancelar: string;
 }
 
 @Component({
@@ -15,7 +16,7 @@ export interface DatosConfirmacion {
     <h2 mat-dialog-title>{{ datos.titulo }}</h2>
     <mat-dialog-content>{{ datos.mensaje }}</mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button matButton [mat-dialog-close]="false" type="button">Cancelar</button>
+      <button matButton [mat-dialog-close]="false" type="button">{{ datos.textoCancelar }}</button>
       <button matButton="filled" [mat-dialog-close]="true" type="button">{{ datos.textoAceptar }}</button>
     </mat-dialog-actions>
   `,

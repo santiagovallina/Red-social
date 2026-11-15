@@ -31,6 +31,18 @@ export class Auth {
     return this.http.post<Usuario>(`${API_URL}/autenticacion/registro`, datos);
   }
 
+  autorizar() {
+    return this.http
+      .post<Usuario>(`${API_URL}/autenticacion/autorizar`, {})
+      .pipe(tap((usuario) => this.guardarUsuario(usuario)));
+  }
+
+  refrescar() {
+    return this.http
+      .post<{ token: string }>(`${API_URL}/autenticacion/refrescar`, {})
+      .pipe(tap((respuesta) => this.guardarToken(respuesta.token)));
+  }
+
   salir() {
     localStorage.removeItem(CLAVE_USUARIO);
     localStorage.removeItem(CLAVE_TOKEN);
@@ -38,11 +50,32 @@ export class Auth {
     this.tokenActual.set(null);
   }
 
+  expiraEn(): number | null {
+    const partes = this.tokenActual()?.split('.');
+    if (partes?.length !== 3) {
+      return null;
+    }
+    try {
+      const payload = JSON.parse(atob(partes[1].replace(/-/g, '+').replace(/_/g, '/')));
+      return typeof payload.exp === 'number' ? payload.exp * 1000 : null;
+    } catch {
+      return null;
+    }
+  }
+
   private guardar(respuesta: RespuestaAuth) {
     const { token, ...usuario } = respuesta;
+    this.guardarToken(token);
+    this.guardarUsuario(usuario);
+  }
+
+  private guardarToken(token: string) {
     localStorage.setItem(CLAVE_TOKEN, token);
-    localStorage.setItem(CLAVE_USUARIO, JSON.stringify(usuario));
     this.tokenActual.set(token);
+  }
+
+  private guardarUsuario(usuario: Usuario) {
+    localStorage.setItem(CLAVE_USUARIO, JSON.stringify(usuario));
     this.usuarioActual.set(usuario);
   }
 

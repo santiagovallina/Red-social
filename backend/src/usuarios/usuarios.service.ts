@@ -24,6 +24,10 @@ export class UsuariosService {
       .exec();
   }
 
+  async buscarPorId(id: string) {
+    return this.usuarioModel.findById(id).exec();
+  }
+
   async crear(datos: Partial<Usuario>) {
     return this.usuarioModel.create(datos);
   }

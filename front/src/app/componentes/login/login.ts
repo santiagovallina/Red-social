@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import { form, FormField, minLength, pattern, required, submit } from '@angular/forms/signals';
+import { form, FormField, required, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -26,10 +26,7 @@ export class Login {
 
   loginForm = form(this.loginModel, (campos) => {
     required(campos.identificador, { message: 'Ingresá tu usuario o correo' });
-    required(campos.password, { message: 'La contraseña es obligatoria' });
-    minLength(campos.password, 8, { message: 'Debe tener al menos 8 caracteres' });
-    pattern(campos.password, /[A-Z]/, { message: 'Debe incluir una mayúscula' });
-    pattern(campos.password, /\d/, { message: 'Debe incluir un número' });
+    required(campos.password, { message: 'Ingresá tu contraseña' });
   });
 
   enviar(evento: Event) {

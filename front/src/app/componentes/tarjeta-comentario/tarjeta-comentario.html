@@ -1,0 +1,44 @@
+<article class="comentario">
+  @if (comentario().autor.imagenUrl) {
+    <img class="comentario__avatar" [src]="comentario().autor.imagenUrl" alt="Foto de {{ comentario().autor.usuario }}" />
+  } @else {
+    <div class="comentario__avatar comentario__avatar--inicial">{{ inicial() }}</div>
+  }
+
+  <div class="comentario__cuerpo">
+    <header class="comentario__cabecera">
+      <span class="comentario__nombre">{{ comentario().autor.nombre }} {{ comentario().autor.apellido }}</span>
+      <span class="comentario__meta">&#64;{{ comentario().autor.usuario }} · {{ comentario().createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+      @if (comentario().modificado) {
+        <span class="comentario__editado">editado</span>
+      }
+    </header>
+
+    @if (editando()) {
+      <textarea
+        class="comentario__texto-editable"
+        rows="3"
+        [value]="borrador()"
+        (input)="escribir($event)"
+        aria-label="Editar comentario"
+      ></textarea>
+      <p class="comentario__contador">{{ borrador().length }} / {{ maximo }}</p>
+      @if (errorBorrador()) {
+        <p class="comentario__error">{{ errorBorrador() }}</p>
+      }
+      <div class="comentario__acciones">
+        <button matButton="filled" type="button" [disabled]="guardando() || !!errorBorrador()" (click)="guardar()">
+          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+        </button>
+        <button matButton type="button" [disabled]="guardando()" (click)="cancelar()">Cancelar</button>
+      </div>
+    } @else {
+      <p class="comentario__texto">{{ comentario().mensaje }}</p>
+      @if (esMio()) {
+        <div class="comentario__acciones">
+          <button matButton type="button" (click)="editar()">Editar</button>
+        </div>
+      }
+    }
+  </div>
+</article>

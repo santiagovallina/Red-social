@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ArchivosModule } from '../archivos/archivos.module.js';
+import { ComentariosController } from './comentarios.controller.js';
+import { ComentariosService } from './comentarios.service.js';
 import { PublicacionesController } from './publicaciones.controller.js';
 import { PublicacionesService } from './publicaciones.service.js';
 import { Publicacion, PublicacionSchema } from './schemas/publicacion.schema.js';
@@ -14,7 +16,7 @@ import { Comentario, ComentarioSchema } from './schemas/comentario.schema.js';
       { name: Comentario.name, schema: ComentarioSchema },
     ]),
   ],
-  controllers: [PublicacionesController],
-  providers: [PublicacionesService],
+  controllers: [PublicacionesController, ComentariosController],
+  providers: [PublicacionesService, ComentariosService],
 })
 export class PublicacionesModule {}
