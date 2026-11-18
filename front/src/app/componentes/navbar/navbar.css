@@ -3,6 +3,7 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 24px;
+  box-sizing: border-box;
   padding: 12px 24px;
   background: var(--rc-fondo-rayas);
   color: var(--rc-azul);
@@ -12,6 +13,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  min-width: 0;
   justify-self: start;
   color: var(--rc-azul);
   font-size: 1.4rem;
@@ -19,6 +21,20 @@
   letter-spacing: 1px;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.marca__escudo {
+  width: auto;
+  height: 2.4rem;
+}
+
+.menu-boton {
+  display: none;
+}
+
+/* Escritorio: los enlaces quedan centrados y la sesión a la derecha. */
+.menu {
+  display: contents;
 }
 
 .enlaces {
@@ -50,19 +66,69 @@
   font-weight: 500;
 }
 
-@media (max-width: 600px) {
+/* Celular: arriba solo el escudo, el nombre y el botón de menú; el resto se despliega al tocarlo. */
+@media (max-width: 760px) {
   .barra {
     grid-template-columns: 1fr auto;
-    gap: 12px;
+    gap: 0.5rem 0.75rem;
+    padding: 10px 16px;
+  }
+
+  .marca {
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+  }
+
+  .marca__escudo {
+    height: 2rem;
+  }
+
+  .menu-boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--rc-azul);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .menu {
+    display: none;
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 8px;
+  }
+
+  .barra--abierta .menu {
+    display: grid;
   }
 
   .enlaces {
-    order: 3;
-    grid-column: 1 / -1;
+    flex-direction: column;
+    gap: 0.25rem;
   }
-}
 
-.marca__escudo {
-  width: auto;
-  height: 2.4rem;
+  .enlaces a {
+    padding: 0.7rem 0.9rem;
+    border-bottom: none;
+    border-radius: 6px;
+  }
+
+  .enlaces a.activo {
+    background: var(--rc-celeste);
+  }
+
+  .sesion {
+    justify-self: stretch;
+    justify-content: space-between;
+    padding: 0.5rem 0.9rem 0.25rem;
+    border-top: 1px solid rgba(0, 2, 46, 0.15);
+  }
 }

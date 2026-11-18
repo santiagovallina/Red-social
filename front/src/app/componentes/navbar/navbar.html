@@ -1,17 +1,30 @@
-<header class="barra">
-  <a class="marca" routerLink="/publicaciones">
+<header class="barra" [class.barra--abierta]="menuAbierto()">
+  <a class="marca" routerLink="/publicaciones" (click)="cerrarMenu()">
     <img class="marca__escudo" src="/escudo.png" alt="" />
     <span>Racingram</span>
   </a>
 
-  <nav class="enlaces">
-    <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
-    <a routerLink="/mi-perfil" routerLinkActive="activo">Mi perfil</a>
-    <a *appSoloAdministrador routerLink="/dashboard" routerLinkActive="activo">Administración</a>
-  </nav>
+  <button
+    class="menu-boton"
+    type="button"
+    aria-controls="menu-principal"
+    [attr.aria-expanded]="menuAbierto()"
+    [attr.aria-label]="menuAbierto() ? 'Cerrar menú' : 'Abrir menú'"
+    (click)="alternarMenu()"
+  >
+    <span class="material-icons" aria-hidden="true">{{ menuAbierto() ? 'close' : 'menu' }}</span>
+  </button>
 
-  <div class="sesion">
-    <span class="nombre">{{ auth.usuario()?.usuario }}</span>
-    <button matButton="filled" type="button" (click)="salir()">Salir</button>
+  <div id="menu-principal" class="menu">
+    <nav class="enlaces">
+      <a routerLink="/publicaciones" routerLinkActive="activo" (click)="cerrarMenu()">Publicaciones</a>
+      <a routerLink="/mi-perfil" routerLinkActive="activo" (click)="cerrarMenu()">Mi perfil</a>
+      <a *appSoloAdministrador routerLink="/dashboard" routerLinkActive="activo" (click)="cerrarMenu()">Administración</a>
+    </nav>
+
+    <div class="sesion">
+      <span class="nombre">{{ auth.usuario()?.usuario }}</span>
+      <button matButton="filled" type="button" (click)="salir()">Salir</button>
+    </div>
   </div>
 </header>

@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { ArchivosService } from '../archivos/archivos.service.js';
 import type { RegistroDto } from '../autenticacion/dto/registro.dto.js';
+import { ActualizarPerfilDto } from './dto/actualizar-perfil.dto.js';
 import { ListarUsuariosDto } from './dto/listar-usuarios.dto.js';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema.js';
 
@@ -87,6 +88,28 @@ export class UsuariosService {
       offset,
       limit,
     };
+  }
+
+  async actualizarPerfil(
+    id: string,
+    dto: ActualizarPerfilDto,
+    foto?: Express.Multer.File,
+  ) {
+    const usuario = await this.usuarioModel.findById(id).exec();
+    if (!usuario || !usuario.habilitado) {
+      throw new NotFoundException('El usuario no existe');
+    }
+
+    if (dto.nombre !== undefined) usuario.nombre = dto.nombre;
+    if (dto.apellido !== undefined) usuario.apellido = dto.apellido;
+    if (dto.descripcion !== undefined) usuario.descripcion = dto.descripcion;
+    if (foto) {
+      usuario.imagenUrl = await this.archivosService.subirImagen(foto, 'usuarios');
+    }
+
+    await usuario.save();
+    const { password, ...datos } = usuario.toObject();
+    return datos;
   }
 
   async cambiarHabilitado(id: string, habilitado: boolean, administradorId: string) {

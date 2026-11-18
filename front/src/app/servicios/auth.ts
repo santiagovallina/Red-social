@@ -37,6 +37,12 @@ export class Auth {
       .pipe(tap((usuario) => this.guardarUsuario(usuario)));
   }
 
+  actualizarPerfil(datos: FormData) {
+    return this.http
+      .patch<Usuario>(`${API_URL}/usuarios/perfil`, datos)
+      .pipe(tap((usuario) => this.guardarUsuario(usuario)));
+  }
+
   refrescar() {
     return this.http
       .post<{ token: string }>(`${API_URL}/autenticacion/refrescar`, {})

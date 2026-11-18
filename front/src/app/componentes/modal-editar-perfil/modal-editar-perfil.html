@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>Editar perfil</h2>
+
+<mat-dialog-content>
+  <form id="formulario-perfil" class="formulario" (submit)="guardar($event)" novalidate>
+    <div class="foto">
+      @if (fotoAMostrar()) {
+        <img class="foto__imagen" [src]="fotoAMostrar()" alt="Foto de perfil" />
+      } @else {
+        <div class="foto__imagen foto__imagen--inicial">{{ inicial() }}</div>
+      }
+      <div class="foto__acciones">
+        <label class="foto__etiqueta" for="foto-perfil">Cambiar foto</label>
+        <input id="foto-perfil" type="file" accept="image/*" (change)="seleccionarFoto($event)" />
+        @if (errorFoto()) {
+          <p class="formulario__error">{{ errorFoto() }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="formulario__fila">
+      <div class="formulario__campo">
+        <label for="perfil-nombre">Nombre</label>
+        <input id="perfil-nombre" type="text" autocomplete="given-name" [formField]="perfilForm.nombre" />
+        @if (perfilForm.nombre().touched()) {
+          @for (error of perfilForm.nombre().errors(); track error.kind) {
+            <p class="formulario__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div class="formulario__campo">
+        <label for="perfil-apellido">Apellido</label>
+        <input id="perfil-apellido" type="text" autocomplete="family-name" [formField]="perfilForm.apellido" />
+        @if (perfilForm.apellido().touched()) {
+          @for (error of perfilForm.apellido().errors(); track error.kind) {
+            <p class="formulario__error">{{ error.message }}</p>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="formulario__campo">
+      <label for="perfil-descripcion">Descripción breve</label>
+      <textarea id="perfil-descripcion" rows="3" [formField]="perfilForm.descripcion"></textarea>
+      <p class="formulario__contador">{{ perfilModel().descripcion.length }} / 200</p>
+      @if (perfilForm.descripcion().touched()) {
+        @for (error of perfilForm.descripcion().errors(); track error.kind) {
+          <p class="formulario__error">{{ error.message }}</p>
+        }
+      }
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button matButton type="button" [mat-dialog-close]="false" [disabled]="guardando()">Cancelar</button>
+  <button matButton="filled" type="submit" form="formulario-perfil" [disabled]="guardando()">
+    {{ guardando() ? 'Guardando...' : 'Guardar' }}
+  </button>
+</mat-dialog-actions>
