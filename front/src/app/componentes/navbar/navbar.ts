@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { SoloAdministradorDirective } from '../../directivas/solo-administrador.directive';
 import { Auth } from '../../servicios/auth';
 
 @Component({
-  imports: [MatButtonModule, RouterLink, RouterLinkActive],
+  imports: [MatButtonModule, RouterLink, RouterLinkActive, SoloAdministradorDirective],
   selector: 'app-navbar',
   styleUrl: './navbar.css',
   templateUrl: './navbar.html',

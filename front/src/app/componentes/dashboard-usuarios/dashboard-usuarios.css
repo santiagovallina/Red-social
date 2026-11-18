@@ -1,0 +1,167 @@
+.titulo {
+  margin: 0;
+  color: var(--rc-azul);
+  font-size: 1.8rem;
+}
+
+.intro {
+  margin: 0.25rem 0 1.5rem;
+  color: #555555;
+}
+
+.bloque {
+  box-sizing: border-box;
+  max-width: 64rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border-top: 4px solid var(--rc-celeste);
+  border-radius: 8px;
+}
+
+.bloque:last-of-type {
+  max-width: 40rem;
+}
+
+.bloque__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bloque__cabecera h2 {
+  margin: 0;
+  color: var(--rc-azul);
+  font-size: 1.25rem;
+}
+
+.bloque__total {
+  color: #555555;
+  font-size: 0.9rem;
+}
+
+.estado {
+  margin: 0;
+  padding: 1.5rem 0;
+  color: #555555;
+  text-align: center;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.tabla th {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid var(--rc-celeste);
+  color: var(--rc-azul);
+  font-size: 0.8rem;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #e5e5e5;
+  vertical-align: middle;
+}
+
+.tabla__accion {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tabla__tu-cuenta {
+  color: #777777;
+  font-size: 0.85rem;
+}
+
+.persona {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.persona__avatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 2px solid var(--rc-celeste);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.persona__avatar--inicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rc-celeste);
+  color: var(--rc-azul);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.persona__nombre {
+  margin: 0;
+  font-weight: 700;
+  color: var(--rc-azul);
+  white-space: nowrap;
+}
+
+.persona__usuario {
+  margin: 0;
+  color: #777777;
+  font-size: 0.8rem;
+}
+
+.etiqueta {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  background: #e5e5e5;
+  color: #333333;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.etiqueta--admin {
+  background: var(--rc-azul);
+  color: #ffffff;
+}
+
+.etiqueta--habilitado {
+  background: #d8f0dc;
+  color: #1b5e20;
+}
+
+.etiqueta--deshabilitado {
+  background: #f9d9d6;
+  color: #8c1d18;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

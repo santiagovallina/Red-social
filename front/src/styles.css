@@ -1,4 +1,4 @@
-/* Paleta y tipografía de Racinggram.
+/* Paleta y tipografía de Racingram.
    Los colores se cambian acá y se propagan a toda la aplicación. */
 html {
   --rc-celeste: #67bef4;
@@ -55,4 +55,24 @@ body {
 
 h1, h2, h3, h4 {
   font-weight: 700;
+}
+
+/* Fondo de las pantallas sin sesión (login y registro): foto del estadio con velo azul y desenfoque leve.
+   Va en un pseudo-elemento para desenfocar solo la foto y no el formulario. */
+app-login,
+app-register {
+  position: relative;
+  isolation: isolate;
+}
+
+app-login::before,
+app-register::before {
+  content: '';
+  position: fixed;
+  inset: -12px;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(0, 2, 46, 0.4), rgba(0, 2, 46, 0.4)),
+    url('/fondo-estadio.jpg') center / cover no-repeat;
+  filter: blur(3px);
 }

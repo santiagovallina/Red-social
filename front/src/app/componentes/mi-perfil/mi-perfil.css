@@ -1,7 +1,17 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  min-height: calc(100vh - 64px);
+  padding: 2rem 0;
+  background: var(--rc-azul);
+  /* El fondo es oscuro: los textos sueltos pasan a color claro. */
+  --spinner-texto: #ffffff;
+}
+
 .perfil {
   box-sizing: border-box;
   width: min(100% - 2rem, 40rem);
-  margin: 2rem auto;
+  margin: 0 auto 2rem;
   padding: 2rem 1.5rem;
   background: #ffffff;
   border-top: 4px solid var(--rc-celeste);
@@ -91,7 +101,7 @@
 
 .ultimas__titulo {
   margin: 0 0 1rem;
-  color: var(--rc-azul);
+  color: #ffffff;
   font-size: 1.3rem;
 }
 
@@ -103,6 +113,6 @@
 
 .ultimas__estado {
   padding: 1.5rem 0;
-  color: #555555;
+  color: rgba(255, 255, 255, 0.85);
   text-align: center;
 }

@@ -5,13 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Publicacion } from '../../modelos/publicacion';
+import { PluralizarPipe } from '../../pipes/pluralizar.pipe';
+import { TiempoTranscurridoPipe } from '../../pipes/tiempo-transcurrido.pipe';
 import { Auth } from '../../servicios/auth';
 import { Modal } from '../../servicios/modal';
 import { PublicacionesApi } from '../../servicios/publicaciones-api';
 import { ComentariosPublicacion } from '../comentarios-publicacion/comentarios-publicacion';
 
 @Component({
-  imports: [ComentariosPublicacion, DatePipe, MatButtonModule, RouterLink],
+  imports: [ComentariosPublicacion, DatePipe, MatButtonModule, PluralizarPipe, RouterLink, TiempoTranscurridoPipe],
   selector: 'app-tarjeta-publicacion',
   styleUrl: './tarjeta-publicacion.css',
   templateUrl: './tarjeta-publicacion.html',
@@ -37,6 +39,8 @@ export class TarjetaPublicacion {
   trabajando = signal(false);
 
   esMia = computed(() => this.auth.usuario()?._id === this.publicacion().autor._id);
+  esAdministrador = computed(() => this.auth.usuario()?.perfil === 'administrador');
+  puedeEliminar = computed(() => this.esMia() || this.esAdministrador());
   inicial = computed(() => this.publicacion().autor.nombre.charAt(0).toUpperCase());
 
   alternarComentarios() {
@@ -74,9 +78,12 @@ export class TarjetaPublicacion {
   }
 
   async eliminar() {
+    const comoAdministrador = !this.esMia();
     const confirmado = await this.modal.confirmar(
       'Eliminar publicación',
-      '¿Querés eliminar esta publicación? Esta acción no se puede deshacer.',
+      comoAdministrador
+        ? `Vas a eliminar, como administrador, la publicación de @${this.publicacion().autor.usuario}. También dejarán de estar disponibles sus comentarios. Esta acción no se puede deshacer.`
+        : '¿Querés eliminar esta publicación? Esta acción no se puede deshacer.',
       'Eliminar',
     );
     if (!confirmado) {

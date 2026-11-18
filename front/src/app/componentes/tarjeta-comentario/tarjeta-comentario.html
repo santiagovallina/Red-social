@@ -8,7 +8,7 @@
   <div class="comentario__cuerpo">
     <header class="comentario__cabecera">
       <span class="comentario__nombre">{{ comentario().autor.nombre }} {{ comentario().autor.apellido }}</span>
-      <span class="comentario__meta">&#64;{{ comentario().autor.usuario }} · {{ comentario().createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+      <span class="comentario__meta">&#64;{{ comentario().autor.usuario }} · {{ comentario().createdAt | tiempoTranscurrido }} · {{ comentario().createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
       @if (comentario().modificado) {
         <span class="comentario__editado">editado</span>
       }

@@ -10,3 +10,10 @@ export interface Usuario {
   perfil: 'usuario' | 'administrador';
   habilitado: boolean;
 }
+
+export interface PaginaUsuarios {
+  items: Usuario[];
+  total: number;
+  offset: number;
+  limit: number;
+}

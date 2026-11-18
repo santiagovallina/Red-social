@@ -3,6 +3,7 @@ import { Component, computed, ElementRef, inject, input, OnInit, output, signal,
 import { form, FormField, maxLength, required, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
+import { AutofocoDirective } from '../../directivas/autofoco.directive';
 import { Comentario } from '../../modelos/comentario';
 import { ComentariosApi } from '../../servicios/comentarios-api';
 import { Modal } from '../../servicios/modal';
@@ -12,7 +13,7 @@ import { TarjetaComentario } from '../tarjeta-comentario/tarjeta-comentario';
 const COMENTARIOS_POR_TANDA = 5;
 
 @Component({
-  imports: [FormField, MatButtonModule, Spinner, TarjetaComentario],
+  imports: [AutofocoDirective, FormField, MatButtonModule, Spinner, TarjetaComentario],
   selector: 'app-comentarios-publicacion',
   styleUrl: './comentarios-publicacion.css',
   templateUrl: './comentarios-publicacion.html',
@@ -41,9 +42,6 @@ export class ComentariosPublicacion implements OnInit {
 
   async ngOnInit() {
     await this.cargar();
-    if (this.enfocar()) {
-      this.enfocarCaja();
-    }
   }
 
   enfocarCaja() {

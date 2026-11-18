@@ -4,6 +4,7 @@ import { Component, computed, inject, input, output, signal } from '@angular/cor
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
 import { Comentario } from '../../modelos/comentario';
+import { TiempoTranscurridoPipe } from '../../pipes/tiempo-transcurrido.pipe';
 import { Auth } from '../../servicios/auth';
 import { ComentariosApi } from '../../servicios/comentarios-api';
 import { Modal } from '../../servicios/modal';
@@ -11,7 +12,7 @@ import { Modal } from '../../servicios/modal';
 const MAXIMO_CARACTERES = 500;
 
 @Component({
-  imports: [DatePipe, MatButtonModule],
+  imports: [DatePipe, MatButtonModule, TiempoTranscurridoPipe],
   selector: 'app-tarjeta-comentario',
   styleUrl: './tarjeta-comentario.css',
   templateUrl: './tarjeta-comentario.html',

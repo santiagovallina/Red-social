@@ -1,9 +1,13 @@
 <header class="barra">
-  <a class="marca" routerLink="/publicaciones">Racinggram</a>
+  <a class="marca" routerLink="/publicaciones">
+    <img class="marca__escudo" src="/escudo.png" alt="" />
+    <span>Racingram</span>
+  </a>
 
   <nav class="enlaces">
     <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
     <a routerLink="/mi-perfil" routerLinkActive="activo">Mi perfil</a>
+    <a *appSoloAdministrador routerLink="/dashboard" routerLinkActive="activo">Administración</a>
   </nav>
 
   <div class="sesion">

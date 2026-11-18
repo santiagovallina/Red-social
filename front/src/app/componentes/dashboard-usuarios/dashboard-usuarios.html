@@ -1,0 +1,100 @@
+<h1 class="titulo">Usuarios</h1>
+<p class="intro">Listá, habilitá o deshabilitá cuentas, y creá usuarios nuevos.</p>
+
+<section class="bloque" aria-label="Listado de usuarios">
+  <div class="bloque__cabecera">
+    <h2>Listado</h2>
+    <span class="bloque__total">{{ total() | pluralizar: 'usuario' : 'usuarios' }}</span>
+  </div>
+
+  @if (cargando()) {
+    <app-spinner mensaje="Cargando usuarios..." />
+  } @else if (errorCarga()) {
+    <p class="estado">No pudimos cargar los usuarios. Intentá de nuevo en unos minutos.</p>
+  } @else if (items().length === 0) {
+    <p class="estado">Todavía no hay usuarios.</p>
+  } @else {
+    <div class="tabla-contenedor">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th scope="col">Usuario</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Perfil</th>
+            <th scope="col">Estado</th>
+            <th scope="col"><span class="solo-lectores">Acción</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of items(); track usuario._id) {
+            <tr appResaltar>
+              <td>
+                <div class="persona">
+                  @if (usuario.imagenUrl) {
+                    <img class="persona__avatar" [src]="usuario.imagenUrl" alt="Foto de {{ usuario.usuario }}" />
+                  } @else {
+                    <div class="persona__avatar persona__avatar--inicial">{{ inicial(usuario) }}</div>
+                  }
+                  <div>
+                    <p class="persona__nombre">{{ usuario.nombre }} {{ usuario.apellido }}</p>
+                    <p class="persona__usuario">&#64;{{ usuario.usuario }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.fechaNacimiento | edad }}</td>
+              <td>
+                <span class="etiqueta" [class.etiqueta--admin]="usuario.perfil === 'administrador'">
+                  {{ usuario.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="etiqueta"
+                  [class.etiqueta--habilitado]="usuario.habilitado"
+                  [class.etiqueta--deshabilitado]="!usuario.habilitado"
+                >
+                  {{ usuario.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+                </span>
+              </td>
+              <td class="tabla__accion">
+                @if (esYo(usuario)) {
+                  <span class="tabla__tu-cuenta">Tu cuenta</span>
+                } @else {
+                  <button
+                    matButton
+                    type="button"
+                    [disabled]="trabajandoId() === usuario._id"
+                    (click)="alternarHabilitado(usuario)"
+                  >
+                    {{ usuario.habilitado ? 'Deshabilitar' : 'Habilitar' }}
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <nav class="paginacion" aria-label="Paginación de usuarios">
+      <button matButton type="button" [disabled]="pagina() === 1" (click)="irAPagina(pagina() - 1)">Anterior</button>
+      <span>Página {{ pagina() }} de {{ totalPaginas() }}</span>
+      <button matButton type="button" [disabled]="pagina() >= totalPaginas()" (click)="irAPagina(pagina() + 1)">Siguiente</button>
+    </nav>
+  }
+</section>
+
+<section class="bloque" aria-label="Nuevo usuario">
+  <div class="bloque__cabecera">
+    <h2>Nuevo usuario</h2>
+  </div>
+  <app-formulario-usuario
+    [conPerfil]="true"
+    [enviando]="creando()"
+    textoBoton="Crear usuario"
+    textoEnviando="Creando usuario..."
+    (datos)="crear($event)"
+  />
+</section>

@@ -1,4 +1,4 @@
-# Racinggram — Requerimientos técnicos
+# Racingram — Requerimientos técnicos
 
 Basado en la consigna del TP #2 de Programación IV (2026 C1).
 

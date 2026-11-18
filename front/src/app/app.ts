@@ -5,6 +5,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Navbar } from './componentes/navbar/navbar';
 import { PantallaCarga } from './componentes/pantalla-carga/pantalla-carga';
+import { Actualizacion } from './servicios/actualizacion';
 import { Auth } from './servicios/auth';
 import { Sesion } from './servicios/sesion';
 
@@ -19,6 +20,7 @@ const RUTAS_SIN_SESION = ['', '/', '/login', '/register'];
 export class App implements OnInit {
   protected auth = inject(Auth);
   private sesion = inject(Sesion);
+  private actualizacion = inject(Actualizacion);
   private router = inject(Router);
   private location = inject(Location);
 
@@ -33,6 +35,7 @@ export class App implements OnInit {
   }
 
   async ngOnInit() {
+    this.actualizacion.iniciar();
     await this.validarSesion();
     this.iniciando.set(false);
   }

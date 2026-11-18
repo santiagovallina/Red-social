@@ -3,13 +3,70 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: var(--rc-fondo-rayas);
+}
+
+/* Escritorio: escudo, nombre y frase a la izquierda, una línea divisoria y la tarjeta. */
+.pagina {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+}
+
+.marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 20rem;
+  text-align: center;
+}
+
+.marca__escudo {
+  width: 7.5rem;
+  height: auto;
+  filter: drop-shadow(0 6px 14px rgba(0, 2, 46, 0.45));
+}
+
+.marca__nombre {
+  margin: 1rem 0 0.75rem;
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.marca__nombre span {
+  color: var(--rc-celeste);
+}
+
+.marca__frase {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.marca__frase strong {
+  color: var(--rc-celeste);
+  font-weight: 700;
+}
+
+.divisor {
+  align-self: stretch;
+  width: 2px;
+  background: linear-gradient(transparent, var(--rc-celeste), transparent);
 }
 
 .login {
   box-sizing: border-box;
-  width: min(100% - 2rem, 26rem);
-  margin: 2rem auto;
+  flex: 0 1 26rem;
+  width: 100%;
+  margin: 0;
   padding: 2rem 1.5rem;
   background: #ffffff;
   border-top: 4px solid var(--rc-celeste);
@@ -72,4 +129,35 @@
 .login__pie a {
   color: var(--rc-azul);
   font-weight: 700;
+}
+
+/* Pantallas angostas: la marca pasa arriba de la tarjeta, sin línea divisoria. */
+@media (max-width: 900px) {
+  .pagina {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .divisor {
+    display: none;
+  }
+
+  .marca__escudo {
+    width: 5rem;
+  }
+
+  .marca__nombre {
+    margin: 0.75rem 0 0.5rem;
+    font-size: 2.2rem;
+  }
+
+  .marca__frase {
+    font-size: 1.05rem;
+  }
+
+  .login {
+    flex: none;
+    max-width: 26rem;
+  }
 }

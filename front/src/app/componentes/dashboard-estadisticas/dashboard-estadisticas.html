@@ -1,0 +1,67 @@
+<h1 class="titulo">Estadísticas</h1>
+<p class="intro">Actividad de la comunidad en el lapso elegido.</p>
+
+<div class="lapsos" role="group" aria-label="Lapso de tiempo">
+  @for (opcion of lapsos; track opcion.id) {
+    <button
+      class="lapsos__opcion"
+      type="button"
+      [class.lapsos__opcion--activa]="opcion.id === lapsoId()"
+      [attr.aria-pressed]="opcion.id === lapsoId()"
+      [disabled]="cargando()"
+      (click)="elegirLapso(opcion.id)"
+    >
+      {{ opcion.etiqueta }}
+    </button>
+  }
+</div>
+
+@if (cargando()) {
+  <app-spinner mensaje="Calculando estadísticas..." />
+} @else if (errorCarga()) {
+  <p class="estado">No pudimos cargar las estadísticas. Intentá de nuevo en unos minutos.</p>
+} @else {
+  <section class="tarjeta tarjeta--ancha" aria-label="Comentarios en el lapso">
+    <div class="tarjeta__cabecera">
+      <h2>Comentarios realizados</h2>
+      <p class="total"><strong>{{ comentarios().total }}</strong> en el lapso</p>
+    </div>
+    @if (comentarios().total === 0) {
+      <p class="estado">No hubo comentarios en este lapso.</p>
+    } @else {
+      <div class="grafico">
+        <canvas baseChart type="line" [data]="datosLinea()" [options]="opcionesLinea"></canvas>
+      </div>
+    }
+  </section>
+
+  <div class="fila">
+    <section class="tarjeta" aria-label="Publicaciones por usuario">
+      <div class="tarjeta__cabecera">
+        <h2>Publicaciones por usuario</h2>
+        <p class="total"><strong>{{ totalPublicaciones() }}</strong> en total</p>
+      </div>
+      @if (publicaciones().length === 0) {
+        <p class="estado">No hubo publicaciones en este lapso.</p>
+      } @else {
+        <div class="grafico">
+          <canvas baseChart type="pie" [data]="datosTorta()" [options]="opcionesTorta"></canvas>
+        </div>
+      }
+    </section>
+
+    <section class="tarjeta" aria-label="Comentarios por publicación">
+      <div class="tarjeta__cabecera">
+        <h2>Publicaciones más comentadas</h2>
+        <p class="total">Top 5</p>
+      </div>
+      @if (porPublicacion().length === 0) {
+        <p class="estado">No hubo comentarios en este lapso.</p>
+      } @else {
+        <div class="grafico">
+          <canvas baseChart type="bar" [data]="datosBarras()" [options]="opcionesBarras"></canvas>
+        </div>
+      }
+    </section>
+  </div>
+}

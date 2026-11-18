@@ -8,10 +8,10 @@
 
     <div class="tarjeta__autor">
       <p class="tarjeta__nombre">{{ publicacion().autor.nombre }} {{ publicacion().autor.apellido }}</p>
-      <p class="tarjeta__fecha">&#64;{{ publicacion().autor.usuario }} · {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+      <p class="tarjeta__fecha">&#64;{{ publicacion().autor.usuario }} · {{ publicacion().createdAt | tiempoTranscurrido }} · {{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
     </div>
 
-    @if (esMia()) {
+    @if (puedeEliminar()) {
       <button class="tarjeta__eliminar" matButton type="button" (click)="eliminar()">Eliminar</button>
     }
   </header>
@@ -52,7 +52,7 @@
       [attr.aria-expanded]="comentariosAbiertos()"
       (click)="alternarComentarios()"
     >
-      {{ totalComentarios() }} {{ totalComentarios() === 1 ? 'comentario' : 'comentarios' }}
+      {{ totalComentarios() | pluralizar: 'comentario' : 'comentarios' }}
     </button>
   </footer>
 

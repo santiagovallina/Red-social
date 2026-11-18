@@ -1,0 +1,30 @@
+<div class="dashboard">
+  <button
+    class="dashboard__boton-menu"
+    type="button"
+    [attr.aria-expanded]="menuAbierto()"
+    aria-controls="menu-administracion"
+    (click)="alternarMenu()"
+  >
+    <span class="material-icons" aria-hidden="true">{{ menuAbierto() ? 'close' : 'menu' }}</span>
+    <span>Administración</span>
+  </button>
+
+  <aside id="menu-administracion" class="menu" [class.menu--abierto]="menuAbierto()">
+    <h2 class="menu__titulo">Administración</h2>
+    <nav class="menu__opciones" aria-label="Menú de administración">
+      <a class="menu__opcion" routerLink="usuarios" routerLinkActive="menu__opcion--activa" (click)="cerrarMenu()">
+        <span class="material-icons" aria-hidden="true">group</span>
+        <span>Usuarios</span>
+      </a>
+      <a class="menu__opcion" routerLink="estadisticas" routerLinkActive="menu__opcion--activa" (click)="cerrarMenu()">
+        <span class="material-icons" aria-hidden="true">bar_chart</span>
+        <span>Estadísticas</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="contenido">
+    <router-outlet />
+  </main>
+</div>

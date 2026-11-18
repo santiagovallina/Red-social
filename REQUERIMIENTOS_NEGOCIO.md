@@ -1,4 +1,4 @@
-# Racinggram — Requerimientos de negocio
+# Racingram — Requerimientos de negocio
 
 ## 1. Descripción general
 

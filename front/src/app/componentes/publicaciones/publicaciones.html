@@ -59,7 +59,7 @@
         <option value="meGusta">Más me gusta</option>
       </select>
     </div>
-    <span class="barra__total">{{ total() }} {{ total() === 1 ? 'publicación' : 'publicaciones' }}</span>
+    <span class="barra__total">{{ total() | pluralizar: 'publicación' : 'publicaciones' }}</span>
   </div>
 
   @if (cargando()) {

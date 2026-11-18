@@ -1,12 +1,10 @@
 import {
-  ConflictException,
   ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { ArchivosService } from '../archivos/archivos.service.js';
 import { UsuarioDocument } from '../usuarios/schemas/usuario.schema.js';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import { LoginDto } from './dto/login.dto.js';
@@ -17,31 +15,11 @@ import type { PayloadToken } from './payload-token.js';
 export class AutenticacionService {
   constructor(
     private readonly usuariosService: UsuariosService,
-    private readonly archivosService: ArchivosService,
     private readonly jwtService: JwtService,
   ) {}
 
   async registro(dto: RegistroDto, foto?: Express.Multer.File) {
-    const existente = await this.usuariosService.buscarPorCorreoOUsuario(
-      dto.correo,
-      dto.usuario,
-    );
-    if (existente) {
-      throw new ConflictException(
-        'El correo o el nombre de usuario ya está registrado',
-      );
-    }
-
-    const passwordHash = await bcrypt.hash(dto.password, 10);
-    const imagenUrl = foto
-      ? await this.archivosService.subirImagen(foto, 'usuarios')
-      : undefined;
-    const usuario = await this.usuariosService.crear({
-      ...dto,
-      password: passwordHash,
-      imagenUrl,
-    });
-
+    const usuario = await this.usuariosService.registrar(dto, foto);
     return this.respuestaConToken(usuario);
   }
 

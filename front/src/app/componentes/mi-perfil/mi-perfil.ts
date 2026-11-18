@@ -3,13 +3,15 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Publicacion } from '../../modelos/publicacion';
+import { EdadPipe } from '../../pipes/edad.pipe';
+import { PluralizarPipe } from '../../pipes/pluralizar.pipe';
 import { Auth } from '../../servicios/auth';
 import { PublicacionesApi } from '../../servicios/publicaciones-api';
 import { Spinner } from '../spinner/spinner';
 import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
 
 @Component({
-  imports: [DatePipe, Spinner, TarjetaPublicacion],
+  imports: [DatePipe, EdadPipe, PluralizarPipe, Spinner, TarjetaPublicacion],
   selector: 'app-mi-perfil',
   styleUrl: './mi-perfil.css',
   templateUrl: './mi-perfil.html',

@@ -1,10 +1,19 @@
+<div class="pagina">
+  <div class="marca">
+    <img class="marca__escudo" src="/escudo.png" alt="Escudo de Racing Club" />
+    <p class="marca__nombre">Racing<span>ram</span></p>
+    <p class="marca__frase">La red social para hinchas de la <strong>Academia</strong></p>
+  </div>
+
+  <div class="divisor" aria-hidden="true"></div>
+
 <section class="login">
   <h1 class="login__titulo">Iniciar sesión</h1>
 
   <form class="login__form" (submit)="enviar($event)" novalidate>
     <div class="login__campo">
       <label for="identificador">Usuario o correo</label>
-      <input id="identificador" type="text" autocomplete="username" [formField]="loginForm.identificador" />
+      <input appAutofoco id="identificador" type="text" autocomplete="username" [formField]="loginForm.identificador" />
       @if (loginForm.identificador().touched()) {
         @for (error of loginForm.identificador().errors(); track error.kind) {
           <p class="login__error">{{ error.message }}</p>
@@ -31,3 +40,4 @@
     </p>
   </form>
 </section>
+</div>

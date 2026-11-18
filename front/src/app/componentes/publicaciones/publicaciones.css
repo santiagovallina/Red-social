@@ -1,7 +1,16 @@
+:host {
+  display: block;
+  min-height: calc(100vh - 64px);
+  background: var(--rc-azul);
+  /* El fondo es oscuro: los textos y botones sueltos pasan a colores claros. */
+  --spinner-texto: #ffffff;
+}
+
 .publicaciones {
   box-sizing: border-box;
   width: min(100% - 2rem, 48rem);
-  margin: 2rem auto;
+  margin: 0 auto;
+  padding: 2rem 0;
 }
 
 .publicaciones__cabecera {
@@ -14,12 +23,17 @@
 
 .publicaciones__titulo {
   margin: 0 0 0.25rem;
-  color: var(--rc-azul);
+  color: #ffffff;
 }
 
 .publicaciones__intro {
   margin: 0;
-  color: #555555;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.publicaciones__cabecera button {
+  --mat-button-filled-container-color: var(--rc-celeste);
+  --mat-button-filled-label-text-color: var(--rc-azul);
 }
 
 .nueva {
@@ -105,6 +119,7 @@
 }
 
 .barra__orden label {
+  color: #ffffff;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -118,7 +133,7 @@
 }
 
 .barra__total {
-  color: #555555;
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.9rem;
 }
 
@@ -153,6 +168,9 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 1.5rem;
+  color: #ffffff;
+  --mat-button-text-label-text-color: #ffffff;
+  --mat-button-text-disabled-label-text-color: rgba(255, 255, 255, 0.4);
 }
 
 @media (max-width: 520px) {

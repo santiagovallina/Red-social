@@ -9,6 +9,6 @@
 
 .spinner__mensaje {
   margin: 0;
-  color: #555555;
+  color: var(--spinner-texto, #555555);
   font-size: 0.9rem;
 }

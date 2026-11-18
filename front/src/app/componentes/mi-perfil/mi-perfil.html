@@ -25,7 +25,7 @@
       </div>
       <div>
         <dt>Fecha de nacimiento</dt>
-        <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
+        <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }} ({{ usuario.fechaNacimiento | edad | pluralizar: 'año' : 'años' }})</dd>
       </div>
     </dl>
   </section>

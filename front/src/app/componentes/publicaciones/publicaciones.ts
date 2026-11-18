@@ -4,6 +4,7 @@ import { form, FormField, maxLength, required, submit } from '@angular/forms/sig
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
 import { OrdenPublicaciones, Publicacion } from '../../modelos/publicacion';
+import { PluralizarPipe } from '../../pipes/pluralizar.pipe';
 import { Auth } from '../../servicios/auth';
 import { Modal } from '../../servicios/modal';
 import { PublicacionesApi } from '../../servicios/publicaciones-api';
@@ -14,7 +15,7 @@ import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
 const PUBLICACIONES_POR_PAGINA = 5;
 
 @Component({
-  imports: [FormField, MatButtonModule, Spinner, TarjetaPublicacion],
+  imports: [FormField, MatButtonModule, PluralizarPipe, Spinner, TarjetaPublicacion],
   selector: 'app-publicaciones',
   styleUrl: './publicaciones.css',
   templateUrl: './publicaciones.html',

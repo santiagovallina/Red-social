@@ -8,3 +8,7 @@ export interface RegistroData {
   fechaNacimiento: string;
   descripcion: string;
 }
+
+export interface FormularioUsuarioData extends RegistroData {
+  perfil: 'usuario' | 'administrador';
+}

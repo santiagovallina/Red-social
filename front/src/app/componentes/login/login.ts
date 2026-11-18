@@ -4,12 +4,13 @@ import { form, FormField, required, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { AutofocoDirective } from '../../directivas/autofoco.directive';
 import { LoginData } from '../../modelos/login-data';
 import { Auth } from '../../servicios/auth';
 import { Modal } from '../../servicios/modal';
 
 @Component({
-  imports: [FormField, MatButtonModule, RouterLink],
+  imports: [AutofocoDirective, FormField, MatButtonModule, RouterLink],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',

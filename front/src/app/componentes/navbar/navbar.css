@@ -9,6 +9,9 @@
 }
 
 .marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   justify-self: start;
   color: var(--rc-azul);
   font-size: 1.4rem;
@@ -57,4 +60,9 @@
     order: 3;
     grid-column: 1 / -1;
   }
+}
+
+.marca__escudo {
+  width: auto;
+  height: 2.4rem;
 }
