@@ -26,7 +26,7 @@ import { PublicacionesModule } from './publicaciones/publicaciones.module.js';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.getOrThrow<string>('JWT_SECRET'),
-        signOptions: { expiresIn: 15 * 60 },
+        signOptions: { expiresIn: 60 },
       }),
     }),
     AutenticacionModule,

@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { Auth } from './auth';
 import { Modal } from './modal';
 
-const MINUTOS_DE_AVISO_ANTES_DE_VENCER = 5;
+const SEGUNDOS_DE_AVISO_ANTES_DE_VENCER = 30;
 
 @Injectable({ providedIn: 'root' })
 export class Sesion {
@@ -26,7 +26,7 @@ export class Sesion {
     }
 
     const ahora = Date.now();
-    const avisarEn = vencimiento - MINUTOS_DE_AVISO_ANTES_DE_VENCER * 60 * 1000 - ahora;
+    const avisarEn = vencimiento - SEGUNDOS_DE_AVISO_ANTES_DE_VENCER * 1000 - ahora;
     this.temporizadorAviso = setTimeout(() => this.avisar(), Math.max(avisarEn, 0));
     this.temporizadorVencimiento = setTimeout(() => this.vencer(), Math.max(vencimiento - ahora, 0));
   }
@@ -38,8 +38,8 @@ export class Sesion {
 
   private async avisar() {
     const vencimiento = this.auth.expiraEn() ?? Date.now();
-    const minutos = Math.max(Math.ceil((vencimiento - Date.now()) / 60000), 1);
-    const restante = minutos === 1 ? '1 minuto' : `${minutos} minutos`;
+    const segundos = Math.max(Math.round((vencimiento - Date.now()) / 1000), 1);
+    const restante = this.textoDeTiempo(segundos);
 
     const extender = await this.modal.confirmar(
       'Tu sesión está por vencer',
@@ -56,6 +56,15 @@ export class Sesion {
     } catch {
       this.cerrarPorVencimiento();
     }
+  }
+
+  // "30 segundos" si queda menos de un minuto; si queda más, se redondea a minutos.
+  private textoDeTiempo(segundos: number) {
+    if (segundos < 60) {
+      return segundos === 1 ? '1 segundo' : `${segundos} segundos`;
+    }
+    const minutos = Math.ceil(segundos / 60);
+    return minutos === 1 ? '1 minuto' : `${minutos} minutos`;
   }
 
   private vencer() {
